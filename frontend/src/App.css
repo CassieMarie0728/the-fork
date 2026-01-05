@@ -1,38 +1,49 @@
-.App {
-    text-align: center;
+/* App.css intentionally minimal. Styling lives in Tailwind classes below. */
+
+/* IMPORTANT: do NOT center align the app container */
+
+.bg-hero {
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 600px at 10% 10%, rgba(214, 43, 63, 0.18), transparent 55%),
+    radial-gradient(900px 600px at 85% 20%, rgba(255, 255, 255, 0.04), transparent 60%),
+    radial-gradient(800px 500px at 60% 85%, rgba(214, 43, 63, 0.10), transparent 60%),
+    linear-gradient(180deg, #050507 0%, #07070a 40%, #050507 100%);
 }
 
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+:root {
+  --crimson: #d62b3f;
+  --ink: #0b0b10;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+.noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.38'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  opacity: 0.35;
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+.alter-texture {
+  background-image:
+    radial-gradient(600px 240px at 20% 10%, rgba(214, 43, 63, 0.14), transparent 60%),
+    radial-gradient(500px 240px at 80% 80%, rgba(255, 255, 255, 0.05), transparent 65%);
 }
 
-.App-link {
-    color: #61dafb;
+/* Utility tokens for Tailwind-like names used in JSX */
+.bg-crimson { background-color: var(--crimson); }
+.bg-ink { background-color: var(--ink); }
+.border-crimson\/30 { border-color: rgba(214, 43, 63, 0.30); }
+.bg-crimson\/10 { background-color: rgba(214, 43, 63, 0.10); }
+.bg-crimson\/20 { background-color: rgba(214, 43, 63, 0.20); }
+.hover\:bg-crimson\/90:hover { background-color: rgba(214, 43, 63, 0.90); }
+.focus\:ring-crimson\/60:focus { --tw-ring-color: rgba(214, 43, 63, 0.60); }
+
+/* Subtle state styling for setup collapse */
+.fork-collapsed {
+  max-height: 140px;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+.fork-open {
+  max-height: 1200px;
 }
