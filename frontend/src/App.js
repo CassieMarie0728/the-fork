@@ -280,7 +280,7 @@ const MessageBubble = ({ side, label, content }) => {
               data-testid="user-avatar"
               className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-white/5 text-xs font-semibold text-zinc-100"
             >
-              You
+              Y
             </span>
           )}
         </div>
@@ -444,14 +444,12 @@ const ChatWindow = ({ forkStatement, intensity, sessionId, onReset }) => {
               </div>
             </div>
 
-            <button
-              data-testid="chat-reset-button"
-              type="button"
-              onClick={onReset}
-              className="rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-zinc-100 transition-colors duration-200 hover:bg-white/10"
+            <div
+              data-testid="chat-room-label"
+              className="rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-zinc-100"
             >
-              Burn This Timeline & Start Over
-            </button>
+              The Interrogation Room
+            </div>
           </div>
         </div>
 
@@ -576,14 +574,16 @@ function Home() {
   return (
     <div data-testid="app-root" className="min-h-screen bg-black text-zinc-100">
       <div className="bg-hero">
-        <ForkSetup
-          forkStatement={forkStatement}
-          setForkStatement={setForkStatement}
-          intensity={intensity}
-          setIntensity={setIntensity}
-          onStart={start}
-          started={started}
-        />
+        {!started && (
+          <ForkSetup
+            forkStatement={forkStatement}
+            setForkStatement={setForkStatement}
+            intensity={intensity}
+            setIntensity={setIntensity}
+            onStart={start}
+            started={started}
+          />
+        )}
 
         {started && (
           <ForkSummaryBar
@@ -593,7 +593,11 @@ function Home() {
           />
         )}
 
-        <div ref={chatAnchorRef} />
+        <div
+          data-testid="chat-anchor"
+          ref={chatAnchorRef}
+          style={{ scrollMarginTop: 96 }}
+        />
 
         {started && (
           <ChatWindow
