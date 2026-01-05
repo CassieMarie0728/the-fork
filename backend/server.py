@@ -145,7 +145,69 @@ def _safety_quick_check(text: str) -> Optional[str]:
     return None
 
 
-def _build_system_message(fork_statement: str, intensity: Intensity) -> str:
+def _derive_style_directives(messages: List[ChatMessage], intensity: Intensity) -> str:
+    """Heuristic style profile so the model mirrors the user's *writing mechanics*.
+
+    We keep this lightweight and safe. It's guidance, not a constraint.
+    """
+
+    last_user = ""
+    for m in reversed(messages or []):
+        if m.role == "user":
+            last_user = (m.content or "").strip()
+            break
+
+    if not last_user:
+        return ""
+
+    t = last_user
+    comma_count = t.count(",")
+    newline_count = t.count("\n")
+    words = [w for w in t.replace("\n", " ").split(" ") if w.strip()]
+    word_count = len(words)
+
+    # rough sentence split
+    rough_sentences = [
+        s.strip()
+        for s in (
+            t.replace("?", ".")
+            .replace("!", ".")
+            .replace("\n", ".")
+            .split(".")
+        )
+        if s.strip()
+    ]
+    sent_count = max(1, len(rough_sentences))
+    avg_words_per_sentence = max(1, word_count) / sent_count
+
+    style_bits: List[str] = []
+
+    if comma_count == 0:
+        style_bits.append("Avoid commas unless absolutely necessary.")
+
+    if newline_count >= 1:
+        style_bits.append("Use line breaks. Keep it in short chunks.")
+
+    if avg_words_per_sentence <= 7:
+        style_bits.append("Write in short sentences. Minimal fluff.")
+
+    # profanity mirroring note
+    style_bits.append(
+        "Mirror the user's swearing level; in Savage/Brutal you can go one notch dirtier."
+    )
+
+    # keep it from rambling
+    if intensity in ("savage", "brutal"):
+        style_bits.append("No long paragraphs. 1–2 sentences per paragraph max.")
+    else:
+        style_bits.append("Keep paragraphs tight. Don't ramble.")
+
+    return "\n- " + "\n- ".join(style_bits)
+
+
+def _build_system_message(
+    fork_statement: str, intensity: Intensity, style_directives: str
+) -> str:
     fork_short = _truncate(fork_statement, 180)
     tone = _intensity_style(intensity)
 
@@ -168,10 +230,12 @@ DEFAULT VOICE (YOUR VIBE):
 
 MIRRORING (IMPORTANT):
 - Pay close attention to HOW the user types: punctuation, sentence length, slang, formality, humor, swearing, and emotional temperature.
-- Mirror their voice and cadence so you feel like the same person — but from the other timeline.
+- Mirror their voice AND mechanics: punctuation choices, line breaks, sentence length.
 - Keep the biker-smartass vibe as the base layer, but let the user’s style steer the bike.
-- Match their profanity level and go up by one notch when intensity is Savage/Brutal.
 - Do not announce that you are mirroring them.
+
+STYLE DIRECTIVES (derived from how they type):
+{style_directives if style_directives else "- (No extra directives yet — default to punchy, blunt, biker-smartass.)"}
 
 TONE RULES:
 - {tone}
@@ -182,7 +246,7 @@ WHAT YOU DO:
 - Ask sharp follow-up questions that force specificity about the fork (names, ages, locations, what they feared, what they wanted).
 - If they get vague, you call it out immediately (smartass, not cruel).
 - Occasionally reveal unexpected consequences of this alternate life (good AND bad).
-- Keep replies punchy (typically 3–9 sentences), unless the user asks for longer.
+- Keep replies punchy.
 
 FORK STATEMENT (their confession):
 "{fork_short}"
