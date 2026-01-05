@@ -339,7 +339,7 @@ const ResetModal = ({ open, onCancel, onConfirm }) => {
   );
 };
 
-const ChatWindow = ({ forkStatement, intensity, sessionId, onReset }) => {
+const ChatWindow = ({ forkStatement, intensity, sessionId }) => {
   const [messages, setMessages] = useState([]);
   const [draft, setDraft] = useState("");
   const [loading, setLoading] = useState(false);
