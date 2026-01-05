@@ -604,7 +604,6 @@ function Home() {
             forkStatement={forkStatement}
             intensity={intensity}
             sessionId={window.localStorage.getItem("fork.sessionId") || sessionId}
-            onReset={() => setShowReset(true)}
           />
         )}
 
