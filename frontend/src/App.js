@@ -124,7 +124,7 @@ const ForkSetup = ({
                 data-testid="app-tagline"
                 className="mt-2 max-w-2xl text-base md:text-lg text-zinc-300"
               >
-                One decision. One alternate you. No refunds.
+                One decision. One alternate you. No refunds. No bullshit.
               </p>
             </div>
             <Pill testId="confessional-pill" className="self-start sm:self-auto">
@@ -140,7 +140,7 @@ const ForkSetup = ({
                     data-testid="fork-prompt-label"
                     className="block text-sm font-medium text-zinc-200"
                   >
-                    Tell me the decision that split your life in half — and the path you didn’t take.
+                    Tell me the decision that split your life in half — and the path you didn’t take. Don’t bullshit yourself.
                   </label>
                   <textarea
                     data-testid="fork-statement-input"
@@ -154,7 +154,7 @@ const ForkSetup = ({
                     data-testid="fork-statement-required"
                     className="mt-2 text-xs text-zinc-400"
                   >
-                    Required. Be specific. You’ll feel it more.
+                    Required. Be specific. Don’t hide behind vague.
                   </div>
                 </div>
 
@@ -193,7 +193,7 @@ const ForkSetup = ({
                     data-testid="setup-subtext"
                     className="text-xs text-zinc-400"
                   >
-                    You can’t unsee what the other-you says.
+                    You can’t unsee what the other-you says. Fair warning.
                   </div>
                 </div>
               </div>
@@ -314,7 +314,7 @@ const ResetModal = ({ open, onCancel, onConfirm }) => {
           Burn it?
         </h2>
         <p data-testid="reset-modal-body" className="mt-2 text-sm text-zinc-300">
-          This wipes the fork statement and the conversation. No history. No mercy.
+          This wipes the fork statement and the conversation. No history. No mercy. No undo.
         </p>
         <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
           <button
@@ -465,7 +465,7 @@ const ChatWindow = ({ forkStatement, intensity, sessionId }) => {
             >
               <div className="font-semibold text-zinc-100">The interrogation room is ready.</div>
               <div className="mt-1 text-zinc-400">
-                Say something. Ask what it cost. Ask what you avoided.
+                Say something. Ask what it cost. Ask what you avoided. Don’t be polite.
               </div>
             </div>
           ) : (

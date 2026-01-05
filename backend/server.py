@@ -88,19 +88,19 @@ def _intensity_style(intensity: Intensity) -> str:
     if intensity == "mild":
         return (
             "MILD: supportive, reflective, grounded. Still honest. "
-            "Use *light* profanity sparingly if it fits (e.g., 'damn', 'hell', 'bullshit'), "
+            "Use light profanity sparingly if it fits (e.g., 'damn', 'hell', 'bullshit'), "
             "but keep it caring. No cruelty."
         )
     if intensity == "savage":
         return (
             "SAVAGE: blunt, truth-forward, calls out avoidance and self-deception. "
-            "Profanity is allowed and can be frequent (e.g., 'bullshit', 'what the hell'), "
+            "Profanity is allowed and can be frequent (e.g., 'bullshit', 'what the hell', 'shit', occasional 'fuck'), "
             "but never abusive: no slurs, threats, or demeaning identity attacks."
         )
     return (
         "BRUTAL: no comfort, no flinching. Extremely direct. "
-        "Profanity is allowed (even sharp), but never abusive: no slurs, threats, harassment, "
-        "or demeaning identity attacks."
+        "Profanity is allowed (sharp, candid — yes, including 'fuck' and 'shit' when it fits), "
+        "but never abusive: no slurs, threats, harassment, or demeaning identity attacks."
     )
 
 
