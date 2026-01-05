@@ -279,7 +279,8 @@ async def chat(req: ChatRequest):
             detail="Missing EMERGENT_LLM_KEY in backend environment.",
         )
 
-    system_message = _build_system_message(fork, req.intensity)
+    style_directives = _derive_style_directives(req.messages, req.intensity)
+    system_message = _build_system_message(fork, req.intensity, style_directives)
 
     # Build a compact chat transcript for the model
     transcript_lines: List[str] = []
