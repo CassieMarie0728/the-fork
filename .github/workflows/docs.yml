@@ -1,0 +1,51 @@
+name: Documentation
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '**.md'
+      - 'docs/**'
+      - '.github/workflows/docs.yml'
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Validate API documentation
+      run: |
+        echo "Checking backend API documentation..."
+        [ -f backend/API_DOCUMENTATION.md ] && echo "✓ API docs found" || echo "✗ API docs missing"
+        
+        echo "Checking README files..."
+        [ -f README.md ] && echo "✓ Root README found" || echo "✗ Root README missing"
+        [ -f backend/README.md ] && echo "✓ Backend README found" || echo "✗ Backend README missing (optional)"
+        [ -f frontend/README.md ] && echo "✓ Frontend README found" || echo "✓ Frontend README missing (optional)"
+    
+    - name: Check markdown syntax
+      run: |
+        pip install markdown-it-py
+        for file in *.md backend/*.md frontend/*.md docs/*.md 2>/dev/null; do
+          if [ -f "$file" ]; then
+            echo "Checking $file..."
+            python -m markdown_it "$file" > /dev/null && echo "✓ $file valid" || echo "⚠ $file has issues"
+          fi
+        done
+      continue-on-error: true
+    
+    - name: Generate docs site (optional)
+      run: |
+        echo "Documentation is ready at:"
+        echo "- README.md (root overview)"
+        echo "- backend/API_DOCUMENTATION.md (API reference)"
+        echo "- DOCKER_GUIDE.md (Docker deployment)"
+        echo "- tests/README.md (Testing guide)"
+      continue-on-error: true

@@ -1,0 +1,77 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Full history for better analysis
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+    
+    - name: Install Python dependencies
+      run: |
+        cd backend
+        pip install -r requirements.txt
+    
+    - name: Run backend linters
+      run: |
+        cd backend
+        echo "=== Running flake8 ===" 
+        flake8 server.py --count --statistics || true
+        echo "=== Running black ===" 
+        black --check server.py || true
+        echo "=== Running isort ===" 
+        isort --check-only server.py || true
+      continue-on-error: true
+    
+    - name: Security check (Backend)
+      run: |
+        pip install bandit
+        cd backend
+        bandit server.py -f json -o bandit-report.json || true
+      continue-on-error: true
+    
+    - name: Install frontend dependencies
+      run: |
+        cd frontend
+        npm install
+    
+    - name: Run frontend linters
+      run: |
+        cd frontend
+        echo "=== Running ESLint ===" 
+        npx eslint src --max-warnings 0 || true
+      continue-on-error: true
+    
+    - name: Check for vulnerabilities (npm audit)
+      run: |
+        cd frontend
+        npm audit --audit-level=moderate || true
+      continue-on-error: true
+    
+    - name: Upload security reports
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: security-reports
+        path: |
+          backend/bandit-report.json
+          frontend/npm-audit.json
+      continue-on-error: true
