@@ -4,10 +4,10 @@ FROM node:18-alpine AS builder
 WORKDIR /app
 
 # Copy package files
-COPY package.json yarn.lock ./
+COPY package.json ./
 
 # Install dependencies
-RUN yarn install --frozen-lockfile
+RUN npm install
 
 # Copy source code
 COPY public public
@@ -16,7 +16,7 @@ COPY craco.config.js tailwind.config.js postcss.config.js ./
 COPY .env .
 
 # Build application
-RUN yarn build
+RUN npm run build
 
 # Production image
 FROM node:18-alpine

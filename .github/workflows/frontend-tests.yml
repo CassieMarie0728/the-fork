@@ -22,24 +22,23 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18'
-        cache: 'yarn'
-        cache-dependency-path: frontend/yarn.lock
+        cache: 'npm'
     
     - name: Install dependencies
       run: |
         cd frontend
-        yarn install --frozen-lockfile
+        npm install
     
     - name: Lint with ESLint
       run: |
         cd frontend
-        yarn run lint
+        npm run lint
       continue-on-error: true
     
     - name: Run unit tests
       run: |
         cd frontend
-        yarn test --coverage --watchAll=false
+        npm test -- --coverage --watchAll=false
       continue-on-error: true
     
     - name: Install Playwright browsers
@@ -50,7 +49,7 @@ jobs:
     - name: Run E2E tests
       run: |
         cd frontend
-        yarn test:e2e
+        npm run test:e2e
       continue-on-error: true
     
     - name: Upload E2E test results
@@ -60,3 +59,4 @@ jobs:
         name: playwright-report
         path: frontend/playwright-report/
         retention-days: 7
+      continue-on-error: true
