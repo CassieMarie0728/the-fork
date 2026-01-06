@@ -21,6 +21,7 @@ GET /api/
 Verify that the API is running and responsive.
 
 **Response:**
+
 ```json
 {
   "message": "The Fork API is alive."
@@ -59,12 +60,12 @@ Send a message and receive a response from your alternate self.
 
 #### Parameters
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `forkStatement` | string | Yes | The life decision that split your path. Be specific and personal. |
-| `intensity` | enum | No | How direct the AI should be: `"mild"` (supportive), `"savage"` (blunt), `"brutal"` (harsh). Default: `"mild"` |
-| `messages` | array | No | Conversation history. Each message has `role` ("user" or "assistant") and `content`. Default: `[]` |
-| `sessionId` | string | Yes | Unique identifier for the session (UUID format). Used for tracking without storage. |
+| Parameter       | Type   | Required | Description                                                                                                   |
+| --------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------- |
+| `forkStatement` | string | Yes      | The life decision that split your path. Be specific and personal.                                             |
+| `intensity`     | enum   | No       | How direct the AI should be: `"mild"` (supportive), `"savage"` (blunt), `"brutal"` (harsh). Default: `"mild"` |
+| `messages`      | array  | No       | Conversation history. Each message has `role` ("user" or "assistant") and `content`. Default: `[]`            |
+| `sessionId`     | string | Yes      | Unique identifier for the session (UUID format). Used for tracking without storage.                           |
 
 #### Intensity Levels
 
@@ -83,6 +84,7 @@ Send a message and receive a response from your alternate self.
 #### Error Responses
 
 **400 Bad Request** - Missing or invalid fork statement:
+
 ```json
 {
   "detail": "forkStatement is required"
@@ -90,6 +92,7 @@ Send a message and receive a response from your alternate self.
 ```
 
 **422 Unprocessable Entity** - Invalid request structure:
+
 ```json
 {
   "detail": [
@@ -103,6 +106,7 @@ Send a message and receive a response from your alternate self.
 ```
 
 **500 Internal Server Error** - Server or API key issue:
+
 ```json
 {
   "detail": "LLM request failed: ..."
@@ -112,6 +116,7 @@ Send a message and receive a response from your alternate self.
 #### Safety Features
 
 The endpoint includes safety checks that automatically detect and respond to:
+
 - **Self-harm indicators:** Returns crisis resources (988, Samaritans, etc.)
 - **Hate speech:** Returns refusal and redirects to fork discussion
 
@@ -133,6 +138,7 @@ curl -X POST http://localhost:8000/api/chat \
 ## Interactive Documentation
 
 ### Swagger UI
+
 ```
 GET /api/docs
 ```
@@ -140,6 +146,7 @@ GET /api/docs
 Interactive API documentation with "Try It Out" functionality.
 
 ### ReDoc
+
 ```
 GET /api/redoc
 ```
@@ -147,6 +154,7 @@ GET /api/redoc
 Alternative, more readable API documentation.
 
 ### OpenAPI Schema
+
 ```
 GET /api/openapi.json
 ```
@@ -167,6 +175,7 @@ Raw OpenAPI 3.0 specification in JSON format.
 ## Rate Limiting
 
 Currently no rate limiting is enforced. Production deployments should implement:
+
 - Per-IP rate limiting
 - Per-session request throttling
 - Daily message limits per session
@@ -190,6 +199,7 @@ All errors follow a standard format:
 ```
 
 Common HTTP status codes:
+
 - `200 OK` - Successful request
 - `400 Bad Request` - Validation error (missing/invalid fields)
 - `422 Unprocessable Entity` - Request doesn't conform to schema
@@ -222,6 +232,6 @@ CORS_ORIGINS=*                                # CORS configuration
 
 ## Version History
 
-| Version | Date | Changes |
-|---------|------|---------|
-| 1.0.0 | 2024 | Initial release |
+| Version | Date | Changes         |
+| ------- | ---- | --------------- |
+| 1.0.0   | 2024 | Initial release |

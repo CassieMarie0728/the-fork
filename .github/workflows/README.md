@@ -11,6 +11,7 @@ This directory contains automated CI/CD workflows for The Fork project.
 **Trigger:** Push/PR to main/develop affecting backend or tests
 
 **Actions:**
+
 - Sets up Python 3.11 environment
 - Starts MongoDB service
 - Installs backend dependencies
@@ -21,6 +22,7 @@ This directory contains automated CI/CD workflows for The Fork project.
 - Uploads coverage reports to Codecov
 
 **Success Criteria:**
+
 - All tests pass
 - Code follows style guidelines
 - No linting errors
@@ -32,6 +34,7 @@ This directory contains automated CI/CD workflows for The Fork project.
 **Trigger:** Push/PR to main/develop affecting frontend
 
 **Actions:**
+
 - Sets up Node.js 18 environment
 - Installs dependencies
 - Runs linting (ESLint)
@@ -41,6 +44,7 @@ This directory contains automated CI/CD workflows for The Fork project.
 - Uploads test results as artifacts
 
 **Success Criteria:**
+
 - All tests pass
 - Linting passes
 - E2E tests complete
@@ -52,6 +56,7 @@ This directory contains automated CI/CD workflows for The Fork project.
 **Trigger:** Push/PR to main/develop
 
 **Actions:**
+
 - Sets up Docker Buildx
 - Builds backend Docker image
 - Builds frontend Docker image
@@ -59,6 +64,7 @@ This directory contains automated CI/CD workflows for The Fork project.
 - Uploads images as artifacts for deployment
 
 **Success Criteria:**
+
 - Both images build successfully
 - docker-compose.yml is valid
 
@@ -69,12 +75,14 @@ This directory contains automated CI/CD workflows for The Fork project.
 **Trigger:** Push/PR to main/develop
 
 **Actions:**
+
 - Backend: flake8, black, isort, bandit
 - Frontend: ESLint, npm audit
 - Uploads security reports
 - All checks are non-blocking (continue on error)
 
 **Success Criteria:**
+
 - Code quality metrics reported
 - Security vulnerabilities identified
 
@@ -85,12 +93,14 @@ This directory contains automated CI/CD workflows for The Fork project.
 **Trigger:** Push to main affecting markdown files
 
 **Actions:**
+
 - Validates markdown files
 - Checks API documentation exists
 - Verifies README files
 - Non-blocking checks
 
 **Success Criteria:**
+
 - Documentation is valid
 
 ---
@@ -132,6 +142,7 @@ Recommended settings for `main` branch:
 ### Environment Variables
 
 Workflows use environment variables from `.env` files in each service directory. For CI:
+
 - Backend: `backend/.env` (mocked in CI with test values)
 - Frontend: `frontend/.env` (uses provided defaults)
 
@@ -163,18 +174,22 @@ Workflows use environment variables from `.env` files in each service directory.
 ### Common Issues
 
 **Python dependencies not found:**
+
 - Check `backend/requirements.txt` is valid
 - Verify Python version compatibility
 
 **Node dependencies not found:**
+
 - Check `frontend/yarn.lock` exists
 - Verify Node version compatibility
 
 **MongoDB connection fails:**
+
 - Service may not be ready; add health checks
 - Verify username/password in workflow
 
 **Tests timeout:**
+
 - Increase timeout in workflow
 - Check for infinite loops in code
 
@@ -194,7 +209,7 @@ name: My New Workflow
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   job:
@@ -211,7 +226,7 @@ Run on schedule (e.g., daily tests):
 ```yaml
 on:
   schedule:
-    - cron: '0 2 * * *'  # 2 AM UTC daily
+    - cron: "0 2 * * *" # 2 AM UTC daily
 ```
 
 ### Matrix Strategy
@@ -221,8 +236,8 @@ Test multiple versions:
 ```yaml
 strategy:
   matrix:
-    python-version: ['3.10', '3.11', '3.12']
-    node-version: ['16', '18', '20']
+    python-version: ["3.10", "3.11", "3.12"]
+    node-version: ["16", "18", "20"]
 ```
 
 ## Performance Tips
