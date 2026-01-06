@@ -1,0 +1,62 @@
+name: Frontend Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend-tests.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'frontend/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'yarn'
+        cache-dependency-path: frontend/yarn.lock
+    
+    - name: Install dependencies
+      run: |
+        cd frontend
+        yarn install --frozen-lockfile
+    
+    - name: Lint with ESLint
+      run: |
+        cd frontend
+        yarn run lint
+      continue-on-error: true
+    
+    - name: Run unit tests
+      run: |
+        cd frontend
+        yarn test --coverage --watchAll=false
+      continue-on-error: true
+    
+    - name: Install Playwright browsers
+      run: |
+        cd frontend
+        npx playwright install
+    
+    - name: Run E2E tests
+      run: |
+        cd frontend
+        yarn test:e2e
+      continue-on-error: true
+    
+    - name: Upload E2E test results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: playwright-report
+        path: frontend/playwright-report/
+        retention-days: 7

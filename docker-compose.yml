@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  # MongoDB database
+  mongo:
+    image: mongo:7.0
+    container_name: fork-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: fork_database
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - fork-network
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fork-backend
+    environment:
+      MONGO_URL: "mongodb://admin:password@mongo:27017"
+      DB_NAME: "fork_database"
+      EMERGENT_LLM_KEY: ${EMERGENT_LLM_KEY:-sk-emergent-test}
+      CORS_ORIGINS: "*"
+      SERVER_HOST: "0.0.0.0"
+      SERVER_PORT: "8000"
+    ports:
+      - "8000:8000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    networks:
+      - fork-network
+
+  # Frontend (development)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: fork-frontend
+    environment:
+      REACT_APP_BACKEND_URL: "http://localhost:8000"
+      WDS_SOCKET_PORT: 443
+      ENABLE_HEALTH_CHECK: "false"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+    depends_on:
+      - backend
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    networks:
+      - fork-network
+
+volumes:
+  mongo_data:
+
+networks:
+  fork-network:
+    driver: bridge

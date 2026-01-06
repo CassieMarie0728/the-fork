@@ -1,12 +1,22 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import "./App.css";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
+import "./App.css";
+import Home from "./pages/Home";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+/**
+ * App component - main router
+ */
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
 
-const INTENSITY = {
+export default App;
   mild: {
     label: "Mild",
     hint: "Supportive. Honest. Still has a pulse.",

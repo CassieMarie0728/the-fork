@@ -21,7 +21,14 @@ mongo_url = os.environ["MONGO_URL"]
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ["DB_NAME"]]
 
-app = FastAPI()
+app = FastAPI(
+    title="The Fork API",
+    description="An API for an interactive conversation with your alternate self",
+    version="1.0.0",
+    docs_url="/api/docs",
+    openapi_url="/api/openapi.json",
+    redoc_url="/api/redoc",
+)
 api_router = APIRouter(prefix="/api")
 
 
@@ -38,12 +45,21 @@ class StatusCheckCreate(BaseModel):
     client_name: str
 
 
-@api_router.get("/")
+@api_router.get(
+    "/",
+    summary="Health check",
+    description="Verify that the API is running"
+)
 async def root():
     return {"message": "The Fork API is alive."}
 
 
-@api_router.post("/status", response_model=StatusCheck)
+@api_router.post(
+    "/status", 
+    response_model=StatusCheck,
+    summary="Create status check (template)",
+    description="Template endpoint for creating status checks"
+)
 async def create_status_check(input: StatusCheckCreate):
     status_dict = input.dict()
     status_obj = StatusCheck(**status_dict)
@@ -51,7 +67,12 @@ async def create_status_check(input: StatusCheckCreate):
     return status_obj
 
 
-@api_router.get("/status", response_model=List[StatusCheck])
+@api_router.get(
+    "/status",
+    response_model=List[StatusCheck],
+    summary="Get status checks (template)",
+    description="Template endpoint for retrieving status checks"
+)
 async def get_status_checks():
     status_checks = await db.status_checks.find().to_list(1000)
     return [StatusCheck(**status_check) for status_check in status_checks]
@@ -64,18 +85,41 @@ Intensity = Literal["mild", "savage", "brutal"]
 
 
 class ChatMessage(BaseModel):
-    role: Literal["user", "assistant"]
-    content: str
+    """A single message in the chat conversation"""
+    role: Literal["user", "assistant"] = Field(
+        ..., description="The sender of the message: 'user' or 'assistant'"
+    )
+    content: str = Field(..., description="The message content")
 
 
 class ChatRequest(BaseModel):
-    forkStatement: str
-    intensity: Intensity = "mild"
-    messages: List[ChatMessage] = []
-    sessionId: str
+    """Request payload for the chat endpoint"""
+    forkStatement: str = Field(
+        ..., 
+        description="The life decision that split the user's path",
+        example="I chose to move to the city instead of staying in my hometown"
+    )
+    intensity: Intensity = Field(
+        default="mild",
+        description="How direct and provocative the AI should be: 'mild', 'savage', or 'brutal'"
+    )
+    messages: List[ChatMessage] = Field(
+        default_factory=list,
+        description="Conversation history (array of messages)"
+    )
+    sessionId: str = Field(
+        ...,
+        description="Unique session identifier (for tracking without storage)",
+        example="550e8400-e29b-41d4-a716-446655440000"
+    )
 
 
 class ChatResponse(BaseModel):
+    """Response payload from the chat endpoint"""
+    reply: str = Field(
+        ..., 
+        description="The alter-ego's response to the user's message"
+    )
     reply: str
 
 
@@ -255,7 +299,17 @@ Start the conversation as if you recognize them immediately.
 """.strip()
 
 
-@api_router.post("/chat", response_model=ChatResponse)
+@api_router.post(
+    "/chat", 
+    response_model=ChatResponse,
+    summary="Chat with your alternate self",
+    description="Send a message and receive a response from your alternate self based on the fork statement and intensity level. All content is validated for safety.",
+    responses={
+        200: {"description": "Successful chat response"},
+        400: {"description": "Missing or invalid fork statement"},
+        500: {"description": "Server error or missing API key"}
+    }
+)
 async def chat(req: ChatRequest):
     fork = (req.forkStatement or "").strip()
     if not fork:
