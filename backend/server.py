@@ -120,7 +120,6 @@ class ChatResponse(BaseModel):
         ..., 
         description="The alter-ego's response to the user's message"
     )
-    reply: str
 
 
 def _truncate(text: str, n: int = 220) -> str:
