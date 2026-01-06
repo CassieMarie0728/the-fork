@@ -13,6 +13,7 @@ RUN npm install
 COPY public public
 COPY src src
 COPY craco.config.js tailwind.config.js postcss.config.js ./
+COPY plugins plugins
 
 # Create .env file for build (use defaults if not provided)
 RUN echo "REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL:-http://localhost:8000}" > .env
