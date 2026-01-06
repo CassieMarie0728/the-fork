@@ -41,14 +41,14 @@ jobs:
         cache-to: type=gha,mode=max
     
     - name: Upload backend image
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: backend-image
         path: /tmp/backend-image.tar
         retention-days: 1
     
     - name: Upload frontend image
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: frontend-image
         path: /tmp/frontend-image.tar
