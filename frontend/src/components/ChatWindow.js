@@ -71,7 +71,7 @@ export const ChatWindow = ({ forkStatement, intensity, sessionId }) => {
       setMessages((prev) => [...prev, alterMsg]);
     } catch (e) {
       setError(
-        "The other door jammed. Try again in a second (or burn it and restart).",
+        "The other door jammed. Try again in a second (or burn it and restart)."
       );
     } finally {
       setLoading(false);
@@ -101,7 +101,10 @@ export const ChatWindow = ({ forkStatement, intensity, sessionId }) => {
                 <Pill testId="chat-fork-pill" className="border-white/10">
                   Fork Summary
                 </Pill>
-                <Pill testId="chat-intensity-badge" className="border-crimson/30">
+                <Pill
+                  testId="chat-intensity-badge"
+                  className="border-crimson/30"
+                >
                   {INTENSITY[intensity].badge}
                 </Pill>
               </div>
@@ -133,9 +136,12 @@ export const ChatWindow = ({ forkStatement, intensity, sessionId }) => {
               data-testid="chat-empty-state"
               className="rounded-2xl border border-white/10 bg-white/5 p-5 text-sm text-zinc-300"
             >
-              <div className="font-semibold text-zinc-100">The interrogation room is ready.</div>
+              <div className="font-semibold text-zinc-100">
+                The interrogation room is ready.
+              </div>
               <div className="mt-1 text-zinc-400">
-                Say something. Ask what it cost. Ask what you avoided. Don't be polite.
+                Say something. Ask what it cost. Ask what you avoided. Don't be
+                polite.
               </div>
             </div>
           ) : (
@@ -144,7 +150,9 @@ export const ChatWindow = ({ forkStatement, intensity, sessionId }) => {
                 <MessageBubble
                   key={m.id}
                   side={m.role === "user" ? "right" : "left"}
-                  label={m.role === "user" ? "You" : "Other You (Alternate Timeline)"}
+                  label={
+                    m.role === "user" ? "You" : "Other You (Alternate Timeline)"
+                  }
                   content={m.content}
                 />
               ))}
@@ -152,7 +160,10 @@ export const ChatWindow = ({ forkStatement, intensity, sessionId }) => {
           )}
 
           {loading && (
-            <div data-testid="typing-indicator" className="mt-4 text-sm text-zinc-400">
+            <div
+              data-testid="typing-indicator"
+              className="mt-4 text-sm text-zinc-400"
+            >
               {INTENSITY[intensity].typing}
             </div>
           )}

@@ -78,6 +78,7 @@ docker-compose up --build
 ```
 
 **Services will be available at:**
+
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:8000
 - API Docs: http://localhost:8000/api/docs
@@ -174,6 +175,7 @@ All React components are in `frontend/src/components/`:
 Main endpoint: `POST /api/chat`
 
 Other endpoints:
+
 - `GET /api/` - Health check
 - `GET /api/docs` - Interactive API docs
 - `GET /api/status` - Template endpoint
@@ -185,6 +187,7 @@ Other endpoints:
 ### Making Changes
 
 #### Frontend
+
 ```bash
 cd frontend
 # Edit files in src/
@@ -193,6 +196,7 @@ cd frontend
 ```
 
 #### Backend
+
 ```bash
 cd backend
 # Edit server.py
@@ -321,6 +325,7 @@ docker-compose logs mongo
 ### CORS Issues
 
 Update `backend/.env`:
+
 ```
 CORS_ORIGINS="http://localhost:3000,http://localhost:3001"
 ```
@@ -331,22 +336,22 @@ CORS_ORIGINS="http://localhost:3000,http://localhost:3001"
 
 ### Backend (.env)
 
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| MONGO_URL | Yes | - | MongoDB connection string |
-| DB_NAME | Yes | - | Database name |
-| EMERGENT_LLM_KEY | Yes | - | LLM API key |
-| CORS_ORIGINS | No | * | Allowed origins |
-| SERVER_HOST | No | 0.0.0.0 | Server host |
-| SERVER_PORT | No | 8000 | Server port |
+| Variable         | Required | Default | Description               |
+| ---------------- | -------- | ------- | ------------------------- |
+| MONGO_URL        | Yes      | -       | MongoDB connection string |
+| DB_NAME          | Yes      | -       | Database name             |
+| EMERGENT_LLM_KEY | Yes      | -       | LLM API key               |
+| CORS_ORIGINS     | No       | \*      | Allowed origins           |
+| SERVER_HOST      | No       | 0.0.0.0 | Server host               |
+| SERVER_PORT      | No       | 8000    | Server port               |
 
 ### Frontend (.env)
 
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| REACT_APP_BACKEND_URL | Yes | - | Backend API URL |
-| WDS_SOCKET_PORT | No | 443 | WebSocket port |
-| ENABLE_HEALTH_CHECK | No | false | Health check enabled |
+| Variable              | Required | Default | Description          |
+| --------------------- | -------- | ------- | -------------------- |
+| REACT_APP_BACKEND_URL | Yes      | -       | Backend API URL      |
+| WDS_SOCKET_PORT       | No       | 443     | WebSocket port       |
+| ENABLE_HEALTH_CHECK   | No       | false   | Health check enabled |
 
 ---
 
@@ -417,6 +422,7 @@ yarn test:e2e:headed    # Visible browser
 ## Next Steps
 
 1. **Copy environment templates:**
+
    ```bash
    cp backend/.env.example backend/.env
    cp frontend/.env.example frontend/.env
@@ -425,11 +431,13 @@ yarn test:e2e:headed    # Visible browser
 2. **Update EMERGENT_LLM_KEY** with your actual API key
 
 3. **Start development:**
+
    ```bash
    docker-compose up
    ```
 
 4. **Open in browser:**
+
    - Frontend: http://localhost:3000
    - API Docs: http://localhost:8000/api/docs
 
@@ -444,6 +452,7 @@ yarn test:e2e:headed    # Visible browser
 ## Support
 
 For detailed information:
+
 - API docs: http://localhost:8000/api/docs (when running)
 - Backend guide: `backend/API_DOCUMENTATION.md`
 - Docker guide: `DOCKER_GUIDE.md`

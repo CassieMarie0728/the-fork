@@ -11,7 +11,11 @@ export const MessageBubble = ({ side, label, content }) => {
       className={`flex w-full ${isUser ? "justify-end" : "justify-start"}`}
     >
       <div className={`max-w-[85%] sm:max-w-[70%] ${isUser ? "" : ""}`}>
-        <div className={`mb-1 flex items-center gap-2 ${isUser ? "justify-end" : ""}`}>
+        <div
+          className={`mb-1 flex items-center gap-2 ${
+            isUser ? "justify-end" : ""
+          }`}
+        >
           {!isUser && (
             <span
               data-testid="alter-avatar"

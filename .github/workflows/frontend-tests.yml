@@ -2,60 +2,60 @@ name: Frontend Tests
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
     paths:
-      - 'frontend/**'
-      - '.github/workflows/frontend-tests.yml'
+      - "frontend/**"
+      - ".github/workflows/frontend-tests.yml"
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
     paths:
-      - 'frontend/**'
+      - "frontend/**"
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-    
-    - name: Install dependencies
-      run: |
-        cd frontend
-        npm install
-    
-    - name: Lint with ESLint
-      run: |
-        cd frontend
-        npm run lint
-      continue-on-error: true
-    
-    - name: Run unit tests
-      run: |
-        cd frontend
-        npm test -- --coverage --watchAll=false
-      continue-on-error: true
-    
-    - name: Install Playwright browsers
-      run: |
-        cd frontend
-        npx playwright install
-    
-    - name: Run E2E tests
-      run: |
-        cd frontend
-        npm run test:e2e
-      continue-on-error: true
-    
-    - name: Upload E2E test results
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: playwright-report
-        path: frontend/playwright-report/
-        retention-days: 7
-      continue-on-error: true
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Lint with ESLint
+        run: |
+          cd frontend
+          npm run lint
+        continue-on-error: true
+
+      - name: Run unit tests
+        run: |
+          cd frontend
+          npm test -- --coverage --watchAll=false
+        continue-on-error: true
+
+      - name: Install Playwright browsers
+        run: |
+          cd frontend
+          npx playwright install
+
+      - name: Run E2E tests
+        run: |
+          cd frontend
+          npm run test:e2e
+        continue-on-error: true
+
+      - name: Upload E2E test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: frontend/playwright-report/
+          retention-days: 7
+        continue-on-error: true

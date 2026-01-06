@@ -48,7 +48,10 @@ export const ForkSetup = ({
                 One decision. One alternate you. No refunds. No bullshit.
               </p>
             </div>
-            <Pill testId="confessional-pill" className="self-start sm:self-auto">
+            <Pill
+              testId="confessional-pill"
+              className="self-start sm:self-auto"
+            >
               Confessional booth
             </Pill>
           </div>
@@ -61,7 +64,8 @@ export const ForkSetup = ({
                     data-testid="fork-prompt-label"
                     className="block text-sm font-medium text-zinc-200"
                   >
-                    Tell me the decision that split your life in half — and the path you didn't take. Don't bullshit yourself.
+                    Tell me the decision that split your life in half — and the
+                    path you didn't take. Don't bullshit yourself.
                   </label>
                   <textarea
                     data-testid="fork-statement-input"
@@ -87,7 +91,10 @@ export const ForkSetup = ({
                     >
                       Intensity
                     </label>
-                    <Pill testId="intensity-selected-pill" className="border-crimson/30">
+                    <Pill
+                      testId="intensity-selected-pill"
+                      className="border-crimson/30"
+                    >
                       {INTENSITY[intensity].badge}
                     </Pill>
                   </div>
@@ -107,7 +114,9 @@ export const ForkSetup = ({
                     className="group inline-flex items-center justify-center rounded-2xl bg-crimson px-5 py-3 text-base font-semibold text-white shadow-lg shadow-crimson/20 transition-colors duration-200 hover:bg-crimson/90 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <span className="mr-2">Open the Other Door</span>
-                    <span className="arrow transition-colors duration-200">→</span>
+                    <span className="arrow transition-colors duration-200">
+                      →
+                    </span>
                   </button>
 
                   <div

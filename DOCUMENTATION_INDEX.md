@@ -8,23 +8,24 @@
 
 ### 🎯 I Want to...
 
-| Goal | Document | Time |
-|------|----------|------|
-| Get up and running | [QUICKSTART.md](QUICKSTART.md) | 10 min |
-| Understand what was added | [ENHANCEMENT_SUMMARY.md](ENHANCEMENT_SUMMARY.md) | 20 min |
-| Set up development environment | [QUICKSTART.md](QUICKSTART.md#option-1-local-development) | 15 min |
-| Use Docker | [DOCKER_GUIDE.md](DOCKER_GUIDE.md) | 20 min |
-| Understand API | [backend/API_DOCUMENTATION.md](backend/API_DOCUMENTATION.md) | 15 min |
-| Write tests | [tests/README.md](tests/README.md) | 15 min |
-| Set up CI/CD | [.github/workflows/README.md](.github/workflows/README.md) | 20 min |
-| View project structure | [FILE_STRUCTURE.md](FILE_STRUCTURE.md) | 10 min |
-| Read implementation details | [IMPLEMENTATION_REPORT.md](IMPLEMENTATION_REPORT.md) | 30 min |
+| Goal                           | Document                                                     | Time   |
+| ------------------------------ | ------------------------------------------------------------ | ------ |
+| Get up and running             | [QUICKSTART.md](QUICKSTART.md)                               | 10 min |
+| Understand what was added      | [ENHANCEMENT_SUMMARY.md](ENHANCEMENT_SUMMARY.md)             | 20 min |
+| Set up development environment | [QUICKSTART.md](QUICKSTART.md#option-1-local-development)    | 15 min |
+| Use Docker                     | [DOCKER_GUIDE.md](DOCKER_GUIDE.md)                           | 20 min |
+| Understand API                 | [backend/API_DOCUMENTATION.md](backend/API_DOCUMENTATION.md) | 15 min |
+| Write tests                    | [tests/README.md](tests/README.md)                           | 15 min |
+| Set up CI/CD                   | [.github/workflows/README.md](.github/workflows/README.md)   | 20 min |
+| View project structure         | [FILE_STRUCTURE.md](FILE_STRUCTURE.md)                       | 10 min |
+| Read implementation details    | [IMPLEMENTATION_REPORT.md](IMPLEMENTATION_REPORT.md)         | 30 min |
 
 ---
 
 ## 📖 Documentation by Category
 
 ### Getting Started
+
 - ⭐ **[QUICKSTART.md](QUICKSTART.md)** - Setup and first steps (600+ lines)
   - Option 1: Local development
   - Option 2: Docker Compose
@@ -32,6 +33,7 @@
   - Common commands
 
 ### Project Overview
+
 - **[README.md](README.md)** - Project overview
 - **[plan.md](plan.md)** - Original MVP specification
 - **[ENHANCEMENT_SUMMARY.md](ENHANCEMENT_SUMMARY.md)** - What was added (2,500+ lines)
@@ -41,6 +43,7 @@
   - Recommendations
 
 ### Architecture & Structure
+
 - **[FILE_STRUCTURE.md](FILE_STRUCTURE.md)** - Directory tree and organization
 - **[IMPLEMENTATION_REPORT.md](IMPLEMENTATION_REPORT.md)** - Completion report (1,500+ lines)
   - Deliverables checklist
@@ -48,7 +51,9 @@
   - Success criteria
 
 ### API & Backend
+
 - **[backend/API_DOCUMENTATION.md](backend/API_DOCUMENTATION.md)** - Complete API reference (400+ lines)
+
   - Endpoint descriptions
   - Request/response examples
   - Error handling
@@ -62,7 +67,9 @@
   - Coverage reporting
 
 ### Deployment & DevOps
+
 - **[DOCKER_GUIDE.md](DOCKER_GUIDE.md)** - Docker documentation (700+ lines)
+
   - Quick start
   - Service configuration
   - Troubleshooting
@@ -76,6 +83,7 @@
   - Secrets management
 
 ### Configuration
+
 - **[backend/.env.example](backend/.env.example)** - Backend environment template
 - **[frontend/.env.example](frontend/.env.example)** - Frontend environment template
 
@@ -84,6 +92,7 @@
 ## 🗂️ Files by Purpose
 
 ### Documentation Files
+
 ```
 QUICKSTART.md                          # 👈 START HERE
 ENHANCEMENT_SUMMARY.md
@@ -93,6 +102,7 @@ DOCKER_GUIDE.md
 ```
 
 ### Backend Documentation
+
 ```
 backend/API_DOCUMENTATION.md           # API Reference
 tests/README.md                        # Testing guide
@@ -100,12 +110,14 @@ tests/README.md                        # Testing guide
 ```
 
 ### Configuration Examples
+
 ```
 backend/.env.example
 frontend/.env.example
 ```
 
 ### Code Organization
+
 ```
 backend/                               # FastAPI server
 frontend/                              # React application
@@ -122,6 +134,7 @@ tests/                                 # Backend tests
 ## 🎓 Learning Path
 
 ### Level 1: Beginner (Day 1)
+
 1. Read [QUICKSTART.md](QUICKSTART.md)
 2. Copy `.env.example` files to `.env`
 3. Run `docker-compose up`
@@ -129,6 +142,7 @@ tests/                                 # Backend tests
 5. View API docs at http://localhost:8000/api/docs
 
 ### Level 2: Developer (Week 1)
+
 1. Review [FILE_STRUCTURE.md](FILE_STRUCTURE.md)
 2. Explore component files in `frontend/src/components/`
 3. Run tests: `pytest` and `yarn test:e2e`
@@ -136,6 +150,7 @@ tests/                                 # Backend tests
 5. Understand test structure in [tests/README.md](tests/README.md)
 
 ### Level 3: DevOps (Week 1-2)
+
 1. Study [DOCKER_GUIDE.md](DOCKER_GUIDE.md)
 2. Review [.github/workflows/README.md](.github/workflows/README.md)
 3. Configure GitHub secrets and branch protection
@@ -143,6 +158,7 @@ tests/                                 # Backend tests
 5. Set up monitoring and logging
 
 ### Level 4: Advanced (Week 2+)
+
 1. Read [ENHANCEMENT_SUMMARY.md](ENHANCEMENT_SUMMARY.md)
 2. Study [IMPLEMENTATION_REPORT.md](IMPLEMENTATION_REPORT.md)
 3. Extend testing framework
@@ -154,6 +170,7 @@ tests/                                 # Backend tests
 ## 🔗 External Resources
 
 ### Documentation Tools
+
 - [FastAPI Documentation](https://fastapi.tiangolo.com/)
 - [React Documentation](https://react.dev/)
 - [Playwright Documentation](https://playwright.dev/)
@@ -161,10 +178,12 @@ tests/                                 # Backend tests
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 
 ### Testing Frameworks
+
 - [pytest](https://docs.pytest.org/)
 - [Playwright](https://playwright.dev/)
 
 ### Containerization
+
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/)
 
@@ -172,23 +191,24 @@ tests/                                 # Backend tests
 
 ## 📊 Documentation Statistics
 
-| Document | Lines | Focus |
-|----------|-------|-------|
-| QUICKSTART.md | 600+ | Getting started |
-| DOCKER_GUIDE.md | 700+ | Deployment |
-| ENHANCEMENT_SUMMARY.md | 2,500+ | Features and overview |
-| IMPLEMENTATION_REPORT.md | 1,500+ | Completion details |
-| API_DOCUMENTATION.md | 400+ | API reference |
-| Workflows README | 350+ | CI/CD |
-| FILE_STRUCTURE.md | 300+ | Organization |
-| tests/README.md | 150+ | Testing |
-| **Total** | **6,500+** | **Complete project** |
+| Document                 | Lines      | Focus                 |
+| ------------------------ | ---------- | --------------------- |
+| QUICKSTART.md            | 600+       | Getting started       |
+| DOCKER_GUIDE.md          | 700+       | Deployment            |
+| ENHANCEMENT_SUMMARY.md   | 2,500+     | Features and overview |
+| IMPLEMENTATION_REPORT.md | 1,500+     | Completion details    |
+| API_DOCUMENTATION.md     | 400+       | API reference         |
+| Workflows README         | 350+       | CI/CD                 |
+| FILE_STRUCTURE.md        | 300+       | Organization          |
+| tests/README.md          | 150+       | Testing               |
+| **Total**                | **6,500+** | **Complete project**  |
 
 ---
 
 ## ✅ Before You Start
 
 Ensure you have:
+
 - [ ] Node.js 18+ (for frontend)
 - [ ] Python 3.11+ (for backend)
 - [ ] Docker & Docker Compose (optional but recommended)
@@ -196,6 +216,7 @@ Ensure you have:
 - [ ] Text editor or IDE
 
 Then:
+
 1. Clone the repository
 2. Read [QUICKSTART.md](QUICKSTART.md)
 3. Copy `.env.example` files
@@ -220,16 +241,16 @@ Having issues? Check these:
 
 For different types of help:
 
-| Issue | Resource |
-|-------|----------|
-| How to get started | [QUICKSTART.md](QUICKSTART.md) |
-| Understanding architecture | [FILE_STRUCTURE.md](FILE_STRUCTURE.md) |
-| Docker setup | [DOCKER_GUIDE.md](DOCKER_GUIDE.md) |
-| Testing code | [tests/README.md](tests/README.md) |
-| API usage | [backend/API_DOCUMENTATION.md](backend/API_DOCUMENTATION.md) |
-| CI/CD setup | [.github/workflows/README.md](.github/workflows/README.md) |
-| General overview | [ENHANCEMENT_SUMMARY.md](ENHANCEMENT_SUMMARY.md) |
-| Completion details | [IMPLEMENTATION_REPORT.md](IMPLEMENTATION_REPORT.md) |
+| Issue                      | Resource                                                     |
+| -------------------------- | ------------------------------------------------------------ |
+| How to get started         | [QUICKSTART.md](QUICKSTART.md)                               |
+| Understanding architecture | [FILE_STRUCTURE.md](FILE_STRUCTURE.md)                       |
+| Docker setup               | [DOCKER_GUIDE.md](DOCKER_GUIDE.md)                           |
+| Testing code               | [tests/README.md](tests/README.md)                           |
+| API usage                  | [backend/API_DOCUMENTATION.md](backend/API_DOCUMENTATION.md) |
+| CI/CD setup                | [.github/workflows/README.md](.github/workflows/README.md)   |
+| General overview           | [ENHANCEMENT_SUMMARY.md](ENHANCEMENT_SUMMARY.md)             |
+| Completion details         | [IMPLEMENTATION_REPORT.md](IMPLEMENTATION_REPORT.md)         |
 
 ---
 
@@ -253,17 +274,20 @@ Quick reference of what's available:
 ## 🎯 Quick Links
 
 **I'm a developer and want to:**
+
 - Start developing: [QUICKSTART.md](QUICKSTART.md)
 - Understand components: [FILE_STRUCTURE.md](FILE_STRUCTURE.md)
 - Write tests: [tests/README.md](tests/README.md)
 - Use the API: [backend/API_DOCUMENTATION.md](backend/API_DOCUMENTATION.md)
 
 **I'm DevOps and want to:**
+
 - Deploy with Docker: [DOCKER_GUIDE.md](DOCKER_GUIDE.md)
 - Set up CI/CD: [.github/workflows/README.md](.github/workflows/README.md)
 - Configure environments: [.env.example files]()
 
 **I'm a manager and want to:**
+
 - Understand what was added: [ENHANCEMENT_SUMMARY.md](ENHANCEMENT_SUMMARY.md)
 - See project status: [IMPLEMENTATION_REPORT.md](IMPLEMENTATION_REPORT.md)
 - Review architecture: [FILE_STRUCTURE.md](FILE_STRUCTURE.md)

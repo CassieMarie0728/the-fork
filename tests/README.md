@@ -4,46 +4,55 @@ Backend testing README
 ## Running Tests
 
 ### All tests
+
 ```bash
 pytest
 ```
 
 ### Unit tests only
+
 ```bash
 pytest tests/unit/
 ```
 
 ### Integration tests only
+
 ```bash
 pytest tests/integration/
 ```
 
 ### With coverage report
+
 ```bash
 pytest --cov=backend tests/
 ```
 
 ### Specific test file
+
 ```bash
 pytest tests/unit/test_server.py
 ```
 
 ### Specific test class
+
 ```bash
 pytest tests/unit/test_server.py::TestTruncate
 ```
 
 ### Specific test
+
 ```bash
 pytest tests/unit/test_server.py::TestTruncate::test_truncate_short_text
 ```
 
 ### With verbose output
+
 ```bash
 pytest -v
 ```
 
 ### Stop on first failure
+
 ```bash
 pytest -x
 ```
@@ -57,6 +66,7 @@ pytest -x
 ## Required Environment Variables
 
 Before running tests, ensure `.env` is properly configured:
+
 ```
 MONGO_URL="mongodb://localhost:27017"
 DB_NAME="test_database"

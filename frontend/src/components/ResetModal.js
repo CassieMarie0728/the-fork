@@ -17,8 +17,12 @@ export const ResetModal = ({ open, onCancel, onConfirm }) => {
         >
           Burn it?
         </h2>
-        <p data-testid="reset-modal-body" className="mt-2 text-sm text-zinc-300">
-          This wipes the fork statement and the conversation. No history. No mercy. No undo.
+        <p
+          data-testid="reset-modal-body"
+          className="mt-2 text-sm text-zinc-300"
+        >
+          This wipes the fork statement and the conversation. No history. No
+          mercy. No undo.
         </p>
         <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
           <button

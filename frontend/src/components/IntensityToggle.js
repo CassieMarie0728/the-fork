@@ -20,7 +20,11 @@ export const IntensityToggle = ({ value, onChange, disabled }) => {
             data-testid={`intensity-toggle-${key}`}
             onClick={() => onChange(key)}
             className={`relative rounded-xl px-3 py-2 text-left text-sm transition-colors duration-200 disabled:opacity-60
-              ${active ? "bg-crimson/20 border border-crimson/30" : "bg-white/5 hover:bg-white/10"}`}
+              ${
+                active
+                  ? "bg-crimson/20 border border-crimson/30"
+                  : "bg-white/5 hover:bg-white/10"
+              }`}
           >
             <div className="flex items-center justify-between">
               <span className="font-medium text-zinc-100">{meta.label}</span>

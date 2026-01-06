@@ -23,7 +23,10 @@ function Home() {
     setStarted(true);
     // Scroll into chat after paint
     setTimeout(() => {
-      chatAnchorRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      chatAnchorRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     }, 50);
   };
 
@@ -69,7 +72,9 @@ function Home() {
           <ChatWindow
             forkStatement={forkStatement}
             intensity={intensity}
-            sessionId={window.localStorage.getItem("fork.sessionId") || sessionId}
+            sessionId={
+              window.localStorage.getItem("fork.sessionId") || sessionId
+            }
           />
         )}
 

@@ -111,6 +111,7 @@ docker run -d \
 Create `.env` files in backend and frontend directories:
 
 ### backend/.env
+
 ```
 MONGO_URL=mongodb://admin:password@mongo:27017
 DB_NAME=fork_database
@@ -121,6 +122,7 @@ SERVER_PORT=8000
 ```
 
 ### frontend/.env
+
 ```
 REACT_APP_BACKEND_URL=http://localhost:8000
 WDS_SOCKET_PORT=443
@@ -192,6 +194,7 @@ docker inspect fork-backend --format='{{json .State.Health}}' | jq
 ## Networking
 
 Services communicate through the `fork-network` bridge network:
+
 - Backend can access MongoDB at `mongodb://mongo:27017`
 - Frontend can access Backend at `http://backend:8000`
 - From host: Use `localhost` and exposed ports
