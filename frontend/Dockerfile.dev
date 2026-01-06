@@ -14,7 +14,9 @@ COPY public public
 COPY src src
 COPY craco.config.js tailwind.config.js postcss.config.js ./
 COPY plugins plugins
-COPY .env .
+
+# Create .env file for development (use defaults if not provided)
+RUN echo "REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL:-http://localhost:8000}" > .env
 
 # Expose port
 EXPOSE 3000
