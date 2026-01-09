@@ -1,4 +1,4 @@
-<img src="./assets/overview-image-one.png-365dm79r.png" alt="The Fork — hero banner" width="100%" />
+<img width="1116" height="432" alt="overview-image-one" src="https://github.com/user-attachments/assets/27c43371-6c2b-4a4f-b34e-44bba86eaddd" />
 
 # The Fork
 
@@ -20,9 +20,9 @@ Trigger warning: conversations can surface uncomfortable material. If you're in 
 
 ## Demo
 
-<img src="./assets/1.jpeg-s2kvmlqo.jpg" alt="The Fork app UI - chat interface screenshot 1" width="100%">
+![1](https://github.com/user-attachments/assets/282ce5b2-5171-4ceb-a1d6-7a71df2adca8)
 
-<img src="./assets/2.jpeg-dvfeoqfm.jpg" alt="The Fork app UI - chat interface screenshot 2" width="100%">
+![2](https://github.com/user-attachments/assets/653d1d38-7192-45c0-859f-faf3c766faf1)
 
 ---
 
