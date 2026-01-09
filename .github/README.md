@@ -1,399 +1,319 @@
-# 🌌 The Fork
+<img src="./assets/overview-image-one.png-365dm79r.png" alt="The Fork — hero banner" width="100%" />
 
-> *"One decision split your life in half. This app lets you talk to the version of you who took the other path."*
+# The Fork
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Backend Tests](https://github.com/cassiemarie0728/the-fork/workflows/Backend%20Tests/badge.svg)](https://github.com/cassiemarie0728/the-fork/actions)
-[![Frontend Tests](https://github.com/cassiemarie0728/the-fork/workflows/Frontend%20Tests/badge.svg)](https://github.com/cassiemarie0728/the-fork/actions)
-[![Docker Build](https://github.com/cassiemarie0728/the-fork/workflows/Build%20Docker%20Images/badge.svg)](https://github.com/cassiemarie0728/the-fork/actions)
-[![Code Quality](https://github.com/cassiemarie0728/the-fork/workflows/Code%20Quality/badge.svg)](https://github.com/cassiemarie0728/the-fork/actions)
+> One decision split your life in half. This app lets you talk to the version of you who took the other path.
+
+This README is brief where it should be, thorough where it must be. Read it like you're about to open a door you can't close — clearly, without hand-holding, with a map and a few emergency exits.
 
 ---
 
-## ✨ What is The Fork?
+## Quick orientation — what it is (and what it isn't)
 
-**The Fork** is a full-stack, single-session chat application that lets you explore what your life might have been like if you had made a different decision. No accounts, no history, no comfort—just pure conversation with your alternate self.
+- What it is: a stateless, single-session chat that lets you talk to "Other You" — an LLM persona that role-plays the life you didn't choose.
+- What it isn't: therapy, a confidant that stores your secrets, or a soft place to land by default.
+- Tone: choose an intensity (mild / savage / brutal). The persona stays in-character and reflects lived consequences, tradeoffs, and blunt observations.
 
-### Key Features:
-- **One-time conversations**: Each session exists only for the duration of your interaction
-- **Three intensity modes**: Mild, Savage, or Brutal—choose how direct you want your alternate self to be
-- **Stateless design**: No data is stored, ensuring complete privacy
-- **Minimalist UI**: Designed to feel like crossing a threshold, not using an app
-- **Full-stack architecture**: React frontend with FastAPI backend
+Trigger warning: conversations can surface uncomfortable material. If you're in crisis, stop now and seek help.
 
 ---
 
-## 🛠️ Tech Stack
+## Demo
 
-### Frontend:
-- **Framework**: React (SPA)
-- **Styling**: Tailwind CSS
-- **Testing**: Playwright (E2E)
-- **Build Tool**: Webpack (via Create React App)
-- **State Management**: React hooks
+<img src="./assets/1.jpeg-s2kvmlqo.jpg" alt="The Fork app UI - chat interface screenshot 1" width="100%">
 
-### Backend:
-- **Framework**: FastAPI
-- **Database**: MongoDB (optional, stateless by default)
-- **LLM Integration**: Emergent AI
-- **Testing**: Pytest
-
-### DevOps:
-- **Containerization**: Docker
-- **CI/CD**: GitHub Actions
-- **Environment**: Cross-platform (Windows, macOS, Linux)
-
-### System Requirements:
-- Node.js 18+
-- Python 3.11+
-- Docker (for containerized deployment)
-- MongoDB (optional, for development)
+<img src="./assets/2.jpeg-dvfeoqfm.jpg" alt="The Fork app UI - chat interface screenshot 2" width="100%">
 
 ---
 
-## 🚀 Quick Start
+## How it works (high level)
 
-### Option 1: Local Development (Recommended)
+1. You provide a fork statement — a single defining decision and the path you didn't take.
+2. You pick intensity: mild, savage, or brutal.
+3. The frontend posts your session (sessionId + messages + forkStatement + intensity) to the backend.
+4. The backend composes a system prompt (the "Other You" persona + safety checks + style mirroring), calls the Emergent LLM, and returns a reply.
+5. Conversations are ephemeral — nothing is persisted for user experience. (Mongo exists in the template but is optional.)
 
-#### Backend Setup
+---
+
+## Tech stack & requirements
+
+- Frontend: React (Create React App), Tailwind, craco, Playwright (E2E)
+- Backend: FastAPI, Uvicorn, Motor/PyMongo (Mongo optional), Pydantic
+- LLM: Emergent LLM via emergentintegrations.llm.chat (EMERGENT_LLM_KEY required to enable chat)
+- Containerization: Docker, docker-compose
+- Tests: Pytest (backend), Playwright (frontend)
+- System requirements:
+  - Node.js 18+
+  - Python 3.11+
+  - Docker & Docker Compose (optional)
+  - (Optional) MongoDB if you want to run the bundled mongo service
+
+---
+
+## Quick Start — local development (recommended)
+
+Two short paths below. Copy .env.example → .env, add your EMERGENT_LLM_KEY for chat to work.
+
+A. Backend (local)
+
 ```bash
-# Navigate to backend directory
+# from repo root
 cd backend
 
-# Copy environment template
+# copy template and edit
 cp .env.example .env
+# edit .env -> set EMERGENT_LLM_KEY and MONGO_URL/DB_NAME if you use mongo
 
-# Update .env with your settings (especially EMERGENT_LLM_KEY)
-nano .env
+# install Python deps
+python -m pip install -r requirements.txt
 
-# Install dependencies
-pip install -r requirements.txt
-
-# Run tests
+# run tests
 pytest
 
-# Start server
+# run server
 uvicorn server:app --reload
-# Server runs at http://localhost:8000
-# API docs at http://localhost:8000/api/docs
+# Open the API at http://localhost:8000/api/
+# Swagger UI: http://localhost:8000/api/docs
 ```
 
-#### Frontend Setup
+B. Frontend (local)
+
 ```bash
-# Navigate to frontend directory
 cd frontend
 
-# Copy environment template
+# copy template and edit
 cp .env.example .env
+# ensure REACT_APP_BACKEND_URL points to your backend (http://localhost:8000)
 
-# Install dependencies
+# install
 yarn install
 
-# Run tests
+# run E2E tests
 yarn test:e2e
 
-# Start development server
+# start dev server
 yarn start
-# App runs at http://localhost:3000
-```
-
-#### MongoDB Setup (Optional)
-```bash
-# Start MongoDB locally
-mongod --dbpath ./data
-# Or use Docker:
-docker run -d -p 27017:27017 --name fork-mongo mongo:7.0
+# App at http://localhost:3000
 ```
 
 ---
 
-### Option 2: Docker Compose (Quick Start)
+## Quick Start — Docker Compose (one-command)
+
+Docker Compose spins up mongo (optional), backend, and frontend dev server.
 
 ```bash
-# From project root directory
+# from repo root
 docker-compose up --build
-
-# Access the application:
 # Frontend: http://localhost:3000
 # Backend API: http://localhost:8000
-# API Docs: http://localhost:8000/api/docs
-# MongoDB: localhost:27017
+# API docs: http://localhost:8000/api/docs
+```
 
-# Stop services when done
+Stop and remove services:
+
+```bash
 docker-compose down
-
-# Remove volumes (database data)
+# To remove volumes (mongo data)
 docker-compose down -v
 ```
 
----
+View logs:
 
-## 📁 Project Structure
-
-```
-the-fork/
-├── 📄 README.md                          # Project overview (this file)
-├── 📄 QUICKSTART.md                      # Quick start guide
-├── 📄 ENHANCEMENT_SUMMARY.md             # What was added
-├── 📄 IMPLEMENTATION_REPORT.md           # Completion report
-├── 📄 DOCKER_GUIDE.md                    # Docker documentation
-├── 📄 DOCUMENTATION_INDEX.md             # Complete documentation index
-├── 📄 plan.md                            # Original MVP plan
-├── 📄 test_result.md                     # Testing protocol
-├── 📄 .env.example                       # Environment template
-├── 📄 .gitignore                         # Git configuration
-├── 📄 docker-compose.yml                # Multi-service orchestration
-├── 📄 .dockerignore                     # Docker build optimization
-├── 📄 .github/workflows/README.md        # CI/CD guide
-│
-├── backend/                              # Backend API Service
-│   ├── server.py                         # FastAPI application
-│   ├── requirements.txt                  # Python dependencies
-│   ├── .env                             # Environment variables
-│   ├── .env.example                     # Environment template
-│   ├── Dockerfile                       # Production image
-│   └── API_DOCUMENTATION.md             # API reference
-│
-├── frontend/                            # Frontend React Application
-│   ├── src/                             # Source code
-│   │   ├── components/                  # Modular React components
-│   │   ├── hooks/                       # Custom React hooks
-│   │   ├── utils/                       # Utility functions
-│   │   ├── pages/                       # Page components
-│   │   ├── App.js                       # Router
-│   │   ├── index.js                     # Entry point
-│   │   ├── App.css                      # Component styles
-│   │   └── index.css                    # Global styles
-│   ├── public/                          # Static assets
-│   ├── e2e/                             # End-to-end tests
-│   ├── package.json                     # Dependencies
-│   ├── .env.example                     # Environment template
-│   ├── playwright.config.js              # Test configuration
-│   ├── Dockerfile                       # Production image
-│   └── Dockerfile.dev                  # Development image
-│
-├── tests/                               # Test suites
-│   ├── unit/                            # Unit tests
-│   ├── integration/                     # Integration tests
-│   └── conftest.py                     # Pytest configuration
-│
-└── .github/                             # GitHub configuration
-    └── workflows/                       # CI/CD workflows
+```bash
+docker-compose logs -f backend
+docker-compose logs -f frontend
+docker-compose logs -f mongo
 ```
 
 ---
 
-## 🔧 Configuration
+## Backend — API & configuration (practical)
 
-### Environment Variables
+Core file: backend/server.py — the chat endpoint and safety logic live here.
 
-#### Backend Configuration (`.env`):
+Main endpoint:
+- POST /api/chat — send forkStatement, intensity, messages, sessionId → returns { reply: string }
+- GET /api/ — simple health check
+- API docs: GET /api/docs
+
+Environment (backend/.env.example):
+
 ```
-# MongoDB Connection
 MONGO_URL="mongodb://localhost:27017"
-DB_NAME="fork_database"
-
-# CORS Configuration
+DB_NAME="test_database"
 CORS_ORIGINS="*"
-
-# Emergent LLM Integration
-EMERGENT_LLM_KEY=your_emergent_llm_key_here
-
-# Logging (optional)
-LOG_LEVEL="INFO"
-
-# Server (optional)
+EMERGENT_LLM_KEY=your_emergent_llm_key_here   # REQUIRED for chat to work
 SERVER_HOST="0.0.0.0"
 SERVER_PORT=8000
 ```
 
-#### Frontend Configuration (`.env`):
+Example curl (chat):
+
+```bash
+curl -X POST http://localhost:8000/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "forkStatement": "I chose engineering instead of art.",
+    "intensity": "savage",
+    "messages": [
+      {"role": "user", "content": "Do you regret it?"}
+    ],
+    "sessionId": "550e8400-e29b-41d4-a716-446655440000"
+  }'
 ```
-# Backend API URL
-REACT_APP_BACKEND_URL=http://localhost:8000
 
-# WebSocket Configuration (for development)
+Error cases:
+- 400: missing forkStatement
+- 500: missing EMERGENT_LLM_KEY or LLM failures
+- Safety responses: self-harm or hate markers return a refusal/help message instead of forwarding to the LLM.
+
+Safety summary (what the server checks):
+- Lightweight self-harm cue detection (returns crisis resources like 988 / Samaritans)
+- Hate/dehumanizing language triggers a refusal and prompt to redirect conversation
+- The backend also constructs a system prompt that forbids slurs or abusive content even at high intensities.
+
+LLM integration:
+- Uses emergentintegrations.llm.chat.LlmChat with system message + session id
+- Model: configured to "openai", "gpt-5.2" in the code (adapt as needed)
+- Keep your EMERGENT_LLM_KEY secret; do not commit .env with real keys.
+
+---
+
+## Frontend — dev, build, test
+
+Key scripts (frontend/package.json):
+
+- yarn start — dev server (craco)
+- yarn build — production build
+- yarn test — CRA test runner
+- yarn test:e2e — playwright tests
+
+Environment (frontend/.env.example):
+
+```
+REACT_APP_BACKEND_URL=https://parallel-you-1.preview.emergentagent.com
 WDS_SOCKET_PORT=443
-
-# Feature Flags
 ENABLE_HEALTH_CHECK=false
 ```
 
-### Intensity Modes
-
-The Fork offers three intensity levels for your conversation:
-
-| Intensity | Description                                                                 | Example Response                                                                 |
-|-----------|-----------------------------------------------------------------------------|---------------------------------------------------------------------------------|
-| **Mild**  | Supportive, honest, and empathetic                                         | *"I can see why you chose engineering. It's stable, but I wonder what you'd miss."* |
-| **Savage**| Direct, truthful, and challenging                                          | *"You gave up art for a job? That's not courage—that's cowardice."*            |
-| **Brutal**| No comfort, no flinching, but still non-abusive                            | *"You're a fraud. You're just scared of being bad at something."*              |
+Development tips:
+- Ensure REACT_APP_BACKEND_URL points to your backend during local dev (http://localhost:8000)
+- Frontend hot-reloads with the source bind mount in docker-compose for quick iteration
 
 ---
 
-## 🎯 Usage Examples
+## Docker notes & ports
 
-### Basic Usage
+- docker-compose exposes:
+  - frontend -> 3000
+  - backend -> 8000
+  - mongo -> 27017 (optional)
+- Backend Dockerfile runs uvicorn on 8000
+- Frontend has two Dockerfiles:
+  - frontend/Dockerfile.dev — used by docker-compose for dev mode (hot reload)
+  - frontend/Dockerfile — production multi-stage build that serves build/ with serve
+- Healthchecks are defined for services in docker-compose.yml; check logs if a container repeatedly restarts.
 
-1. **Enter your fork statement**: Describe the decision that split your life
-2. **Select intensity**: Choose how direct you want your alternate self to be
-3. **Start conversation**: Begin chatting with your alternate self
-4. **End session**: The conversation disappears when you close the tab
-
-```javascript
-// Example of how the chat API works (backend)
-const response = await axios.post('/api/chat', {
-  forkStatement: "I chose to become a software engineer instead of pursuing music professionally.",
-  intensity: "savage",
-  messages: [
-    { role: "user", content: "How do you feel about the choice you made?" }
-  ],
-  sessionId: "unique-session-uuid"
-});
-
-// Example of how the frontend components work
-<ForkSetup
-  forkStatement={state.forkStatement}
-  setForkStatement={setForkStatement}
-  intensity={state.intensity}
-  setIntensity={setIntensity}
-  onStart={startConversation}
-/>
-```
+Production considerations:
+- Restrict CORS_ORIGINS to your domain(s)
+- Use real secrets (Docker secrets / env vars in your platform)
+- Add TLS / reverse proxy (Nginx)
+- Add rate limiting, monitoring, and a thoughtful content moderation pipeline for public deployments
 
 ---
 
-## 🤝 Contributing
+## Testing & CI
 
-We welcome contributions from the community! Here's how you can help:
+- Backend tests:
+  - Run from repo root: cd backend && pytest
+- Frontend E2E (Playwright):
+  - cd frontend && yarn test:e2e
+  - Playwright config present at frontend/playwright.config.js
 
-### Getting Started with Development
-
-1. **Fork the repository** and clone your copy
-2. **Install dependencies**:
-   ```bash
-   # Backend
-   cd backend
-   pip install -r requirements.txt
-
-   # Frontend
-   cd frontend
-   yarn install
-   ```
-
-3. **Set up environment variables** (copy `.env.example` to `.env`)
-
-4. **Run tests**:
-   ```bash
-   # Backend
-   pytest
-
-   # Frontend
-   yarn test:e2e
-   ```
-
-### Development Workflow
-
-1. **Create a feature branch**:
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-
-2. **Make your changes** following the existing code style
-
-3. **Write tests** for your new functionality
-
-4. **Run the full test suite**:
-   ```bash
-   docker-compose up --build
-   ```
-
-5. **Commit your changes**:
-   ```bash
-   git add .
-   git commit -m "Add your descriptive commit message"
-   ```
-
-6. **Push to your fork** and create a pull request
-
-### Code Style Guidelines
-
-- **Frontend**: Follow React best practices and use Tailwind CSS consistently
-- **Backend**: Follow FastAPI conventions and use Pydantic models for data validation
-- **Testing**: Write comprehensive tests for all new functionality
-- **Documentation**: Keep all documentation up-to-date with your changes
+CI:
+- GitHub Actions workflows present under .github/workflows (backend-tests.yml, frontend-tests.yml, docker-build.yml, code-quality.yml). The repo ships badges in the original README.
 
 ---
 
-## 📝 License
+## Contributing — short, direct, practical
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+If you're about to change the voice, rewind and think twice. The persona is deliberate and documented in server.py. That said, we welcome improvements.
 
----
+Workflow:
 
-## 👥 Authors & Contributors
+1. Fork & clone
+2. Create a branch: git checkout -b feature/your-feature
+3. Run tests (backend & frontend)
+4. Add tests for new behavior
+5. Keep changes scoped; document changes in ENHANCEMENT_SUMMARY.md or docs
+6. Open a PR with a clear description of intent and design/ethics impacts
 
-**Maintainers:**
-- [Cassandra Crossno](https://github.com/cassiemarie0728) - Project Lead
-- [Emergent Team](https://emergent.sh) - AI Integration
-
-**Special Thanks:**
-- All contributors who have helped improve this project
-- The open-source community for their invaluable resources
-
----
-
-## 🐛 Issues & Support
-
-### Reporting Issues
-
-If you encounter any problems or have suggestions for improvement:
-
-1. **Check existing issues** to avoid duplicates
-2. **Create a new issue** with:
-   - Clear description of the problem
-   - Steps to reproduce
-   - Expected behavior
-   - Any relevant error messages
-   - Your environment (OS, Node/Python version, etc.)
-
-### Getting Help
-
-- **Discussions**: Use the GitHub Discussions tab for questions and ideas
-- **Email**: For urgent support, contact cmcrossno@gmail.com
+Code style:
+- Backend: FastAPI/Pydantic idioms; run black/isort/flake8 as in requirements
+- Frontend: follow CRA + Tailwind conventions; run ESLint
 
 ---
 
-## 🗺️ Roadmap
+## Troubleshooting (common)
 
-### Current Version (v1.0)
-- Core functionality complete
-- Full test coverage
-- Docker support
-- CI/CD pipeline
+Backend won't start:
+- python --version → must be 3.11+
+- Check EMERGENT_LLM_KEY in backend/.env
+- lsof -i :8000 to inspect port conflicts
+- docker-compose logs backend for container issues
 
-### Planned Features
-- [ ] User analytics (anonymous, opt-in)
-- [ ] Multiple conversation history (with user consent)
-- [ ] Mobile app version
-- [ ] More intensity modes
-- [ ] Community sharing (with privacy controls)
+Frontend won't start:
+- node --version → Node 18+
+- yarn install; if issues: rm -rf node_modules yarn.lock && yarn install
+- lsof -i :3000 to inspect port conflicts
 
-### Known Issues
-- [#12] Docker health checks could be more robust
-- [#23] Some edge cases in API error handling
-- [#37] Mobile responsiveness improvements
+Mongo connection:
+- If using docker-compose, mongo defaults: admin/password, DB fork_database
+- Check docker-compose logs mongo
+
+CORS:
+- Update backend CORS_ORIGINS (comma-separated) in backend/.env if your frontend is on another host/port.
+
+---
+
+## Safety & ethics (read this)
+
+The app intentionally pushes hard at lived choices. The server implements:
+- Self-harm detection with immediate refusal + crisis resources
+- A hate/harm refusal for dehumanizing content
+- Strict "stay in character" rules but explicit prohibition on slurs, threats, and identity attacks
+- Intensity controls that allow profanity but not abuse
+
+If you plan to use this beyond private experiments, get an ethics review, add moderation, and be explicit about limitations to users.
+
+Crisis resources (if you're reading and need them):
+- U.S./Canada: 988 (call/text) — immediate help
+- U.K. & ROI: Samaritans 116 123
+- If elsewhere, check your local emergency resources
 
 ---
 
-## 🌟 Star and Share!
+## Where to look next (docs & files)
 
-If you find The Fork useful, please consider:
-
-- ⭐ **Starring** this repository to show your support
-- 📢 **Sharing** with others who might benefit
-- 💬 **Leaving feedback** on what you'd like to see next
-
-The Fork is a tool for exploring the "what if" of life's decisions. Every star and contribution helps us make it better for everyone.
+- Quick start and expanded guide: QUICKSTART.md
+- Docker deep-dive: DOCKER_GUIDE.md
+- API reference: backend/API_DOCUMENTATION.md
+- Backend entrypoint & safety rules: backend/server.py
+- Frontend scripts & E2E: frontend/package.json and frontend/e2e
+- CI: .github/workflows/
 
 ---
+
+## License & maintainers
+
+- License: MIT (see LICENSE)
+- Maintainer / contact: Cassandra Crossno — (repo owner: CassieMarie0728)
+- Emergent LLM integration & credits: emergentintegrations, Emergent team
+
+---
+
+If you came here to ask "what if?", do it honestly. The Fork won't make it gentle for you; it will make it real. If you're hacking on it, keep things safe, include tests, and respect the persona rules baked into server.py.
+
+Open the door carefully.
