@@ -1,0 +1,147 @@
+{
+  "repo_notes": [
+    {
+      "content": "The Fork is a digital mirror for alternate timelines — a stateless AI chat experience where users talk to the version of themselves who took the other path. No accounts. No memory. No emotional hoarding. Every session burns clean.\n\nDesign Philosophy: Minimal interface. Maximum emotional gravity. Safety-first by design. The system exists to explore identity, regret, curiosity, and alternate-universe courage — not to replace therapy, build psychological profiles, or warehouse personal data."
+    }
+  ],
+  "pages": [
+    {
+      "title": "Overview",
+      "purpose": "Introduce The Fork, its emotional premise, technical backbone, and why it exists."
+    },
+    {
+      "title": "Core Concepts",
+      "parent": "Overview",
+      "purpose": "Explain fork statements, the Other You persona, intensity levels, stateless design, and safety boundaries."
+    },
+    {
+      "title": "Technology Stack",
+      "parent": "Overview",
+      "purpose": "Document the full stack: React, FastAPI, Emergent LLM, optional MongoDB, Docker, Playwright, pytest, and GitHub Actions."
+    },
+    {
+      "title": "Ethics & Boundaries",
+      "parent": "Overview",
+      "purpose": "Define what The Fork is and is not responsible for, including mental health boundaries and data handling philosophy."
+    },
+    {
+      "title": "Roadmap",
+      "parent": "Overview",
+      "purpose": "Outline future expansion paths without locking the architecture into a corner."
+    },
+    {
+      "title": "Getting Started",
+      "purpose": "Quick start guide for running The Fork locally or in Docker."
+    },
+    {
+      "title": "Prerequisites",
+      "parent": "Getting Started",
+      "purpose": "Required software, API keys, and system requirements."
+    },
+    {
+      "title": "Environment Configuration",
+      "parent": "Getting Started",
+      "purpose": "Document all frontend and backend environment variables with required vs optional flags."
+    },
+    {
+      "title": "Running with Docker",
+      "parent": "Getting Started",
+      "purpose": "Run the full stack using docker-compose."
+    },
+    {
+      "title": "Running Locally",
+      "parent": "Getting Started",
+      "purpose": "Run frontend and backend manually for development."
+    },
+    {
+      "title": "Architecture",
+      "purpose": "Explain how requests flow through frontend, backend, safety layers, and the LLM."
+    },
+    {
+      "title": "System Overview",
+      "parent": "Architecture",
+      "purpose": "High-level diagram of client, API, LLM, and optional persistence."
+    },
+    {
+      "title": "Request Flow",
+      "parent": "Architecture",
+      "purpose": "Step-by-step lifecycle of a chat request."
+    },
+    {
+      "title": "Data Models",
+      "parent": "Architecture",
+      "purpose": "Document ChatRequest, ChatMessage, and ChatResponse schemas."
+    },
+    {
+      "title": "Backend Systems",
+      "purpose": "Document FastAPI server, endpoints, safety layers, prompt engineering, LLM bridge, and backend testing."
+    },
+    {
+      "title": "API Endpoints",
+      "parent": "Backend Systems",
+      "purpose": "List /api/status, /api/chat, and /api/docs with request and response formats."
+    },
+    {
+      "title": "Safety & Moderation",
+      "parent": "Backend Systems",
+      "purpose": "Explain self-harm detection, hate and violence filtering, and crisis response handling."
+    },
+    {
+      "title": "Prompt & Persona Engine",
+      "parent": "Backend Systems",
+      "purpose": "Explain how the Other You persona and intensity styles are dynamically generated."
+    },
+    {
+      "title": "LLM Integration",
+      "parent": "Backend Systems",
+      "purpose": "Document Emergent LLM integration, session handling, and error recovery."
+    },
+    {
+      "title": "Backend Testing",
+      "parent": "Backend Systems",
+      "purpose": "pytest strategy, linting, typing, and CI enforcement."
+    },
+    {
+      "title": "Frontend Systems",
+      "purpose": "Document the React application, UX philosophy, state handling, styling, and frontend testing."
+    },
+    {
+      "title": "Component Architecture",
+      "parent": "Frontend Systems",
+      "purpose": "Explain App, Home, ForkSetup, ChatWindow, MessageBubble, IntensityToggle, ResetModal, and hooks."
+    },
+    {
+      "title": "User Flow & State",
+      "parent": "Frontend Systems",
+      "purpose": "Explain browser-side session state and reset behavior."
+    },
+    {
+      "title": "Styling & Theme",
+      "parent": "Frontend Systems",
+      "purpose": "Document Tailwind usage, dark palette, and confessional UI aesthetic."
+    },
+    {
+      "title": "Frontend Testing",
+      "parent": "Frontend Systems",
+      "purpose": "Playwright E2E coverage and test scenarios."
+    },
+    {
+      "title": "Deployment",
+      "purpose": "Document Docker images, docker-compose topology, and production deployment practices."
+    },
+    {
+      "title": "Security & Configuration",
+      "parent": "Deployment",
+      "purpose": "CORS rules, API key protection, secrets handling, and logging strategy."
+    },
+    {
+      "title": "CI/CD Pipeline",
+      "purpose": "Explain how GitHub Actions enforces quality and build standards."
+    },
+    {
+      "title": "CI/CD Workflows",
+      "parent": "CI/CD Pipeline",
+      "purpose": "Backend and frontend workflows, test stages, coverage, and artifact handling."
+    }
+  ]
+}
