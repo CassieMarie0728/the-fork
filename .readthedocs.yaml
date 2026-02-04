@@ -1,13 +1,14 @@
 version: 2
 
-formats:
-  - html
-
-python:
-  version: 3.11
-  install:
-    - method: pip
-      path: .
-
-sphinx:
-  configuration: docs/conf.py
+build:
+  os: "ubuntu-22.04"
+  tools:
+    nodejs: "18"
+  jobs:
+    install:
+      - cd docs/ && npm ci
+    build:
+      html:
+        - cd docs/ && npm run build
+        - mkdir --parents $READTHEDOCS_OUTPUT/html/
+        - cp --recursive docs/build/* $READTHEDOCS_OUTPUT/html/
