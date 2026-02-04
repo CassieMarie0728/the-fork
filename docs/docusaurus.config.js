@@ -1,4 +1,6 @@
 // @ts-check
+// Load local polyfills first so global File/Blob are available to dependencies
+require('./polyfills');
 const prismRenderer = require("prism-react-renderer");
 const lightCodeTheme = prismRenderer.themes.github;
 const darkCodeTheme = prismRenderer.themes.dracula;
@@ -16,7 +18,9 @@ if (_canonical) {
   try {
     const parsed = new URL(_canonical);
     siteUrl = parsed.origin;
-    siteBaseUrl = parsed.pathname.endsWith("/") ? parsed.pathname : parsed.pathname + "/";
+    siteBaseUrl = parsed.pathname.endsWith("/")
+      ? parsed.pathname
+      : parsed.pathname + "/";
   } catch (e) {
     // Fallback: if parsing fails, leave defaults
   }
