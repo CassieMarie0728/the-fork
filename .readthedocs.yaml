@@ -6,9 +6,9 @@ build:
     nodejs: "18"
   jobs:
     install:
-      - cd docs/ && npm ci
+      - cd docs && npm ci
     build:
       html:
-        - cd docs/ && npm run build
+        - cd docs && npm run build
         - mkdir --parents $READTHEDOCS_OUTPUT/html/
         - cp --recursive docs/build/* $READTHEDOCS_OUTPUT/html/
