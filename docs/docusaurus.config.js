@@ -1,6 +1,7 @@
 // @ts-check
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+const prismRenderer = require('prism-react-renderer');
+const lightCodeTheme = prismRenderer.themes.github;
+const darkCodeTheme = prismRenderer.themes.dracula;
 
 const isCI = process.env.CI === 'true';
 
