@@ -1,6 +1,6 @@
 // @ts-check
 // Load local polyfills first so global File/Blob are available to dependencies
-require('./polyfills');
+require("./polyfills");
 const prismRenderer = require("prism-react-renderer");
 const lightCodeTheme = prismRenderer.themes.github;
 const darkCodeTheme = prismRenderer.themes.dracula;
