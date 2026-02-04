@@ -27,3 +27,4 @@ try {
 } catch (e) {
   // If fetch-blob is not available, gracefully ignore — build may still fail.
   // If polyfill cannot be applied, let the build continue and surface error.
+}
