@@ -162,6 +162,7 @@ export const ChatWindow = ({ forkStatement, intensity, sessionId }) => {
           {loading && (
             <div
               data-testid="typing-indicator"
+              aria-live="polite"
               className="mt-4 text-sm text-zinc-400"
             >
               {INTENSITY[intensity].typing}
@@ -186,12 +187,14 @@ export const ChatWindow = ({ forkStatement, intensity, sessionId }) => {
             <div>
               <label
                 data-testid="composer-label"
+                htmlFor="composer-input"
                 className="block text-xs font-medium text-zinc-400"
               >
                 Your message (Enter to send, Shift+Enter for newline)
               </label>
               <textarea
                 data-testid="composer-input"
+                id="composer-input"
                 value={draft}
                 onChange={(e) => setDraft(e.target.value)}
                 onKeyDown={onKeyDown}
@@ -206,7 +209,7 @@ export const ChatWindow = ({ forkStatement, intensity, sessionId }) => {
               type="button"
               onClick={send}
               disabled={loading || draft.trim().length === 0}
-              className="inline-flex items-center justify-center rounded-2xl bg-zinc-100 px-5 py-3 text-sm font-semibold text-zinc-900 transition-colors duration-200 hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex items-center justify-center rounded-2xl bg-zinc-100 px-5 py-3 text-sm font-semibold text-zinc-900 transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-crimson/60 disabled:cursor-not-allowed disabled:opacity-60"
             >
               Say It
             </button>

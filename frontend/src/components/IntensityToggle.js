@@ -19,7 +19,7 @@ export const IntensityToggle = ({ value, onChange, disabled }) => {
             disabled={disabled}
             data-testid={`intensity-toggle-${key}`}
             onClick={() => onChange(key)}
-            className={`relative rounded-xl px-3 py-2 text-left text-sm transition-colors duration-200 disabled:opacity-60
+            className={`relative rounded-xl px-3 py-2 text-left text-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-crimson/60 disabled:opacity-60
               ${
                 active
                   ? "bg-crimson/20 border border-crimson/30"
