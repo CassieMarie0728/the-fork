@@ -1,23 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 /**
  * ResetModal component - confirmation dialog for resetting the timeline
  */
 export const ResetModal = ({ open, onCancel, onConfirm }) => {
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape") onCancel();
+    };
+    if (open) {
+      window.addEventListener("keydown", handleEscape);
+    }
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [open, onCancel]);
+
   if (!open) return null;
+
   return (
     <div
       data-testid="reset-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="reset-modal-title"
+      aria-describedby="reset-modal-body"
       className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 px-6"
     >
       <div className="w-full max-w-lg rounded-3xl border border-white/10 bg-ink/90 p-6 shadow-2xl shadow-black/60">
         <h2
+          id="reset-modal-title"
           data-testid="reset-modal-title"
           className="text-xl font-semibold text-zinc-50"
         >
           Burn it?
         </h2>
         <p
+          id="reset-modal-body"
           data-testid="reset-modal-body"
           className="mt-2 text-sm text-zinc-300"
         >

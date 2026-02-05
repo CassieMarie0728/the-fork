@@ -62,6 +62,7 @@ export const ForkSetup = ({
                 <div>
                   <label
                     data-testid="fork-prompt-label"
+                    htmlFor="fork-statement-input"
                     className="block text-sm font-medium text-zinc-200"
                   >
                     Tell me the decision that split your life in half — and the
@@ -69,6 +70,7 @@ export const ForkSetup = ({
                   </label>
                   <textarea
                     data-testid="fork-statement-input"
+                    id="fork-statement-input"
                     value={forkStatement}
                     onChange={(e) => setForkStatement(e.target.value)}
                     placeholder={`"I joined the Navy instead of staying home to start a family."\n"I chose law school instead of art."\n"I left my hometown instead of marrying my high school love."`}
@@ -111,7 +113,7 @@ export const ForkSetup = ({
                     type="button"
                     disabled={!canStart}
                     onClick={onStart}
-                    className="group inline-flex items-center justify-center rounded-2xl bg-crimson px-5 py-3 text-base font-semibold text-white shadow-lg shadow-crimson/20 transition-colors duration-200 hover:bg-crimson/90 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="group inline-flex items-center justify-center rounded-2xl bg-crimson px-5 py-3 text-base font-semibold text-white shadow-lg shadow-crimson/20 transition-colors duration-200 hover:bg-crimson/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <span className="mr-2">Open the Other Door</span>
                     <span className="arrow transition-colors duration-200">
