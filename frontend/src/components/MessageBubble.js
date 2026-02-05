@@ -3,7 +3,11 @@ import React from "react";
 /**
  * MessageBubble component - individual chat message display
  */
-export const MessageBubble = ({ side, label, content }) => {
+// This component is memoized with React.memo to prevent unnecessary re-renders
+// of every message in the chat history whenever a new message is added or the
+// user's input changes. This provides a significant performance boost, especially
+// in long conversations.
+export const MessageBubble = React.memo(({ side, label, content }) => {
   const isUser = side === "right";
   return (
     <div
@@ -52,6 +56,6 @@ export const MessageBubble = ({ side, label, content }) => {
       </div>
     </div>
   );
-};
+});
 
 MessageBubble.displayName = "MessageBubble";
