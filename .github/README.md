@@ -6,6 +6,10 @@
 
 This README is brief where it should be, thorough where it must be. Read it like you're about to open a door you can't close — clearly, without hand-holding, with a map and a few emergency exits.
 
+<!-- BADGIE TIME -->
+
+<!-- END BADGIE TIME -->
+
 ---
 
 ## Quick orientation — what it is (and what it isn't)
