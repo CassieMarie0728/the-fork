@@ -4,10 +4,17 @@ import { INTENSITY } from "../utils/constants";
 /**
  * Intensity toggle component - allows user to select fork intensity
  */
-export const IntensityToggle = ({ value, onChange, disabled }) => {
+export const IntensityToggle = ({
+  value,
+  onChange,
+  disabled,
+  ariaLabelledBy,
+}) => {
   return (
     <div
       data-testid="intensity-toggle"
+      role="radiogroup"
+      aria-labelledby={ariaLabelledBy}
       className="grid grid-cols-3 gap-2 rounded-2xl border border-white/10 bg-black/30 p-2"
     >
       {Object.entries(INTENSITY).map(([key, meta]) => {
@@ -16,6 +23,8 @@ export const IntensityToggle = ({ value, onChange, disabled }) => {
           <button
             key={key}
             type="button"
+            role="radio"
+            aria-checked={active}
             disabled={disabled}
             data-testid={`intensity-toggle-${key}`}
             onClick={() => onChange(key)}

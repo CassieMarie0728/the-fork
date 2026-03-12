@@ -87,12 +87,13 @@ export const ForkSetup = ({
 
                 <div>
                   <div className="mb-2 flex items-center justify-between">
-                    <label
+                    <span
+                      id="intensity-group-label"
                       data-testid="intensity-label"
                       className="text-sm font-medium text-zinc-200"
                     >
                       Intensity
-                    </label>
+                    </span>
                     <Pill
                       testId="intensity-selected-pill"
                       className="border-crimson/30"
@@ -101,6 +102,7 @@ export const ForkSetup = ({
                     </Pill>
                   </div>
                   <IntensityToggle
+                    ariaLabelledBy="intensity-group-label"
                     value={intensity}
                     onChange={setIntensity}
                     disabled={false}
