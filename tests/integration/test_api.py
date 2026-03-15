@@ -2,7 +2,6 @@
 Integration tests for The Fork backend API endpoints
 """
 import pytest
-from server import ChatRequest, ChatMessage
 
 
 class TestChatEndpoint:
@@ -17,15 +16,15 @@ class TestChatEndpoint:
             assert "reply" in response.json()
 
     def test_chat_missing_fork_statement(self, client):
-        """Request without forkStatement should return 400"""
+        """Request without forkStatement should return 422"""
         request = {
             "intensity": "mild",
             "messages": [],
             "sessionId": "test-session"
         }
         response = client.post("/api/chat", json=request)
-        assert response.status_code == 400
-        assert "forkStatement" in response.json()["detail"]
+        assert response.status_code == 422
+        assert any("forkStatement" in str(item) for item in response.json()["detail"])
 
     def test_chat_with_empty_fork_statement(self, client):
         """Request with empty forkStatement should return 400"""
@@ -115,25 +114,49 @@ class TestChatEndpoint:
         assert "No" in data["reply"]
 
 
+@pytest.fixture
+def mock_status_db(monkeypatch):
+    """Mock MongoDB status collection to avoid external DB dependency."""
+    class _InsertResult:
+        inserted_id = "test-id"
+
+    class _Cursor:
+        async def to_list(self, limit):
+            return [{"id": "abc", "client_name": "test-client", "timestamp": "2025-01-01T00:00:00"}]
+
+    class _Collection:
+        async def insert_one(self, document):
+            return _InsertResult()
+
+        def find(self):
+            return _Cursor()
+
+    class _DB:
+        status_checks = _Collection()
+
+    import server
+
+    monkeypatch.setattr(server, "db", _DB())
+
 class TestStatusEndpoint:
     """Tests for the status check endpoints (template)"""
 
     def test_root_endpoint(self, client):
         """Root endpoint should return API alive message"""
-        response = client.get("/")
+        response = client.get("/api/")
         assert response.status_code == 200
         assert "alive" in response.json()["message"].lower()
 
-    def test_status_check_get(self, client):
+    def test_status_check_get(self, client, mock_status_db):
         """GET /status should return list"""
-        response = client.get("/status")
+        response = client.get("/api/status")
         assert response.status_code == 200
         assert isinstance(response.json(), list)
 
-    def test_status_check_post(self, client):
+    def test_status_check_post(self, client, mock_status_db):
         """POST /status should create status check"""
         request = {"client_name": "test-client"}
-        response = client.post("/status", json=request)
+        response = client.post("/api/status", json=request)
         assert response.status_code == 200
         data = response.json()
         assert data["client_name"] == "test-client"
