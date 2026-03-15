@@ -55,7 +55,7 @@ The Fork project has been significantly enhanced with professional-grade develop
 MONGO_URL - MongoDB connection string
 DB_NAME - Database name
 CORS_ORIGINS - CORS configuration
-EMERGENT_LLM_KEY - LLM API key
+OPENROUTER_API_KEY - LLM API key
 LOG_LEVEL - Logging level
 SERVER_HOST/PORT - Server config
 ```

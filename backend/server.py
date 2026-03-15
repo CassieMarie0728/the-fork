@@ -9,8 +9,7 @@ from pydantic import BaseModel, Field
 from typing import List, Literal, Optional
 import uuid
 from datetime import datetime
-
-from emergentintegrations.llm.chat import LlmChat, UserMessage
+import httpx
 
 
 ROOT_DIR = Path(__file__).parent
@@ -46,19 +45,17 @@ class StatusCheckCreate(BaseModel):
 
 
 @api_router.get(
-    "/",
-    summary="Health check",
-    description="Verify that the API is running"
+    "/", summary="Health check", description="Verify that the API is running"
 )
 async def root():
     return {"message": "The Fork API is alive."}
 
 
 @api_router.post(
-    "/status", 
+    "/status",
     response_model=StatusCheck,
     summary="Create status check (template)",
-    description="Template endpoint for creating status checks"
+    description="Template endpoint for creating status checks",
 )
 async def create_status_check(input: StatusCheckCreate):
     status_dict = input.dict()
@@ -71,7 +68,7 @@ async def create_status_check(input: StatusCheckCreate):
     "/status",
     response_model=List[StatusCheck],
     summary="Get status checks (template)",
-    description="Template endpoint for retrieving status checks"
+    description="Template endpoint for retrieving status checks",
 )
 async def get_status_checks():
     status_checks = await db.status_checks.find().to_list(1000)
@@ -86,6 +83,7 @@ Intensity = Literal["mild", "savage", "brutal"]
 
 class ChatMessage(BaseModel):
     """A single message in the chat conversation"""
+
     role: Literal["user", "assistant"] = Field(
         ..., description="The sender of the message: 'user' or 'assistant'"
     )
@@ -94,37 +92,59 @@ class ChatMessage(BaseModel):
 
 class ChatRequest(BaseModel):
     """Request payload for the chat endpoint"""
+
     forkStatement: str = Field(
-        ..., 
+        ...,
         description="The life decision that split the user's path",
-        example="I chose to move to the city instead of staying in my hometown"
+        example="I chose to move to the city instead of staying in my hometown",
     )
     intensity: Intensity = Field(
         default="mild",
-        description="How direct and provocative the AI should be: 'mild', 'savage', or 'brutal'"
+        description="How direct and provocative the AI should be: 'mild', 'savage', or 'brutal'",
     )
     messages: List[ChatMessage] = Field(
-        default_factory=list,
-        description="Conversation history (array of messages)"
+        default_factory=list, description="Conversation history (array of messages)"
     )
     sessionId: str = Field(
         ...,
         description="Unique session identifier (for tracking without storage)",
-        example="550e8400-e29b-41d4-a716-446655440000"
+        example="550e8400-e29b-41d4-a716-446655440000",
     )
 
 
 class ChatResponse(BaseModel):
     """Response payload from the chat endpoint"""
+
     reply: str = Field(
-        ..., 
-        description="The alter-ego's response to the user's message"
+        ..., description="The alter-ego's response to the user's message"
     )
 
 
 def _truncate(text: str, n: int = 220) -> str:
     t = (text or "").strip()
     return t if len(t) <= n else t[: n - 1] + "…"
+
+
+def _build_openrouter_messages(
+    system_message: str, transcript_lines: List[str]
+) -> List[dict]:
+    messages: List[dict] = [{"role": "system", "content": system_message}]
+
+    for line in transcript_lines:
+        if line.startswith("You: "):
+            messages.append({"role": "user", "content": line[len("You: ") :]})
+        elif line.startswith("Other You: "):
+            messages.append(
+                {"role": "assistant", "content": line[len("Other You: ") :]}
+            )
+
+    messages.append(
+        {
+            "role": "user",
+            "content": "Continue the conversation as Other You and ask at least one follow-up question.",
+        }
+    )
+    return messages
 
 
 def _intensity_style(intensity: Intensity) -> str:
@@ -212,12 +232,7 @@ def _derive_style_directives(messages: List[ChatMessage], intensity: Intensity) 
     # rough sentence split
     rough_sentences = [
         s.strip()
-        for s in (
-            t.replace("?", ".")
-            .replace("!", ".")
-            .replace("\n", ".")
-            .split(".")
-        )
+        for s in (t.replace("?", ".").replace("!", ".").replace("\n", ".").split("."))
         if s.strip()
     ]
     sent_count = max(1, len(rough_sentences))
@@ -299,15 +314,15 @@ Start the conversation as if you recognize them immediately.
 
 
 @api_router.post(
-    "/chat", 
+    "/chat",
     response_model=ChatResponse,
     summary="Chat with your alternate self",
     description="Send a message and receive a response from your alternate self based on the fork statement and intensity level. All content is validated for safety.",
     responses={
         200: {"description": "Successful chat response"},
         400: {"description": "Missing or invalid fork statement"},
-        500: {"description": "Server error or missing API key"}
-    }
+        500: {"description": "Server error or missing API key"},
+    },
 )
 async def chat(req: ChatRequest):
     fork = (req.forkStatement or "").strip()
@@ -325,12 +340,14 @@ async def chat(req: ChatRequest):
     if safety:
         return ChatResponse(reply=safety)
 
-    api_key = os.environ.get("EMERGENT_LLM_KEY")
+    api_key = os.environ.get("OPENROUTER_API_KEY")
     if not api_key:
         raise HTTPException(
             status_code=500,
-            detail="Missing EMERGENT_LLM_KEY in backend environment.",
+            detail="Missing OPENROUTER_API_KEY in backend environment.",
         )
+
+    model = os.environ.get("OPENROUTER_MODEL", "openai/gpt-4o-mini")
 
     style_directives = _derive_style_directives(req.messages, req.intensity)
     system_message = _build_system_message(fork, req.intensity, style_directives)
@@ -343,21 +360,34 @@ async def chat(req: ChatRequest):
         if content:
             transcript_lines.append(f"{role}: {content}")
 
-    transcript = "\n".join(transcript_lines).strip()
-
-    user_text = (
-        "Continue the conversation. Stay in character as Other You. "
-        "Ask at least one follow-up question.\n\n"
-        f"Conversation so far:\n{transcript}\n\nOther You:"
-    )
-
-    llm = (
-        LlmChat(api_key=api_key, session_id=req.sessionId, system_message=system_message)
-        .with_model("openai", "gpt-5.2")
-    )
+    openrouter_messages = _build_openrouter_messages(system_message, transcript_lines)
 
     try:
-        resp = await llm.send_message(UserMessage(text=user_text))
+        async with httpx.AsyncClient(timeout=45.0) as client:
+            response = await client.post(
+                "https://openrouter.ai/api/v1/chat/completions",
+                headers={
+                    "Authorization": f"Bearer {api_key}",
+                    "Content-Type": "application/json",
+                },
+                json={
+                    "model": model,
+                    "messages": openrouter_messages,
+                    "temperature": 0.85,
+                    "max_tokens": 500,
+                },
+            )
+
+        if response.status_code >= 400:
+            raise HTTPException(
+                status_code=500,
+                detail=f"OpenRouter request failed ({response.status_code}): {response.text}",
+            )
+
+        payload = response.json()
+        resp = payload.get("choices", [{}])[0].get("message", {}).get("content", "")
+    except HTTPException:
+        raise
     except Exception as e:
         logger.exception("LLM request failed")
         raise HTTPException(status_code=500, detail=f"LLM request failed: {str(e)}")

@@ -22,7 +22,7 @@ cd backend
 cp .env.example .env
 
 # Update .env with your settings
-# (EMERGENT_LLM_KEY is required for chat to work)
+# (OPENROUTER_API_KEY is required for chat to work)
 nano .env
 
 # Install dependencies
@@ -244,7 +244,7 @@ The backend requires these environment variables in `.env`:
 ```bash
 MONGO_URL="mongodb://localhost:27017"
 DB_NAME="fork_database"
-EMERGENT_LLM_KEY="your_api_key_here"  # Required!
+OPENROUTER_API_KEY="your_api_key_here"  # Required!
 CORS_ORIGINS="*"
 ```
 
@@ -340,7 +340,7 @@ CORS_ORIGINS="http://localhost:3000,http://localhost:3001"
 | ---------------- | -------- | ------- | ------------------------- |
 | MONGO_URL        | Yes      | -       | MongoDB connection string |
 | DB_NAME          | Yes      | -       | Database name             |
-| EMERGENT_LLM_KEY | Yes      | -       | LLM API key               |
+| OPENROUTER_API_KEY | Yes      | -       | LLM API key               |
 | CORS_ORIGINS     | No       | \*      | Allowed origins           |
 | SERVER_HOST      | No       | 0.0.0.0 | Server host               |
 | SERVER_PORT      | No       | 8000    | Server port               |
@@ -428,7 +428,7 @@ yarn test:e2e:headed    # Visible browser
    cp frontend/.env.example frontend/.env
    ```
 
-2. **Update EMERGENT_LLM_KEY** with your actual API key
+2. **Update OPENROUTER_API_KEY** with your actual API key
 
 3. **Start development:**
 

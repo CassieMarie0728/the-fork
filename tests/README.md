@@ -70,7 +70,7 @@ Before running tests, ensure `.env` is properly configured:
 ```
 MONGO_URL="mongodb://localhost:27017"
 DB_NAME="test_database"
-EMERGENT_LLM_KEY=your_key_here
+OPENROUTER_API_KEY=your_key_here
 CORS_ORIGINS="*"
 ```
 

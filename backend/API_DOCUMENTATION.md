@@ -224,7 +224,8 @@ The API requires these environment variables to function:
 ```bash
 MONGO_URL=mongodb://localhost:27017          # MongoDB connection (not used by fork endpoint)
 DB_NAME=test_database                         # Database name
-EMERGENT_LLM_KEY=your_emergent_llm_key       # LLM API key (required for /chat)
+OPENROUTER_API_KEY=your_openrouter_api_key   # LLM API key (required for /chat)
+OPENROUTER_MODEL=openai/gpt-4o-mini           # Optional model override
 CORS_ORIGINS=*                                # CORS configuration
 ```
 
