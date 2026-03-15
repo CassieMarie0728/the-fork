@@ -31,7 +31,7 @@ Trigger warning: conversations can surface uncomfortable material. If you're in 
 1. You provide a fork statement — a single defining decision and the path you didn't take.
 2. You pick intensity: mild, savage, or brutal.
 3. The frontend posts your session (sessionId + messages + forkStatement + intensity) to the backend.
-4. The backend composes a system prompt (the "Other You" persona + safety checks + style mirroring), calls the Emergent LLM, and returns a reply.
+4. The backend composes a system prompt (the "Other You" persona + safety checks + style mirroring), calls the OpenRouter API, and returns a reply.
 5. Conversations are ephemeral — nothing is persisted for user experience. (Mongo exists in the template but is optional.)
 
 ---
@@ -40,7 +40,7 @@ Trigger warning: conversations can surface uncomfortable material. If you're in 
 
 - Frontend: React (Create React App), Tailwind, craco, Playwright (E2E)
 - Backend: FastAPI, Uvicorn, Motor/PyMongo (Mongo optional), Pydantic
-- LLM: Emergent LLM via emergentintegrations.llm.chat (EMERGENT_LLM_KEY required to enable chat)
+- LLM: OpenRouter Chat Completions API (OPENROUTER_API_KEY required to enable chat)
 - Containerization: Docker, docker-compose
 - Tests: Pytest (backend), Playwright (frontend)
 - System requirements:
@@ -53,7 +53,7 @@ Trigger warning: conversations can surface uncomfortable material. If you're in 
 
 ## Quick Start — local development (recommended)
 
-Two short paths below. Copy .env.example → .env, add your EMERGENT_LLM_KEY for chat to work.
+Two short paths below. Copy .env.example → .env, add your OPENROUTER_API_KEY for chat to work.
 
 A. Backend (local)
 
@@ -63,7 +63,7 @@ cd backend
 
 # copy template and edit
 cp .env.example .env
-# edit .env -> set EMERGENT_LLM_KEY and MONGO_URL/DB_NAME if you use mongo
+# edit .env -> set OPENROUTER_API_KEY and MONGO_URL/DB_NAME if you use mongo
 
 # install Python deps
 python -m pip install -r requirements.txt
@@ -144,7 +144,8 @@ Environment (backend/.env.example):
 MONGO_URL="mongodb://localhost:27017"
 DB_NAME="test_database"
 CORS_ORIGINS="*"
-EMERGENT_LLM_KEY=your_emergent_llm_key_here   # REQUIRED for chat to work
+OPENROUTER_API_KEY=your_openrouter_key_here   # REQUIRED for chat to work
+OPENROUTER_MODEL=openai/gpt-4o-mini            # optional, defaults in code
 SERVER_HOST="0.0.0.0"
 SERVER_PORT=8000
 ```
@@ -166,7 +167,7 @@ curl -X POST http://localhost:8000/api/chat \
 
 Error cases:
 - 400: missing forkStatement
-- 500: missing EMERGENT_LLM_KEY or LLM failures
+- 500: missing OPENROUTER_API_KEY or LLM failures
 - Safety responses: self-harm or hate markers return a refusal/help message instead of forwarding to the LLM.
 
 Safety summary (what the server checks):
@@ -175,9 +176,9 @@ Safety summary (what the server checks):
 - The backend also constructs a system prompt that forbids slurs or abusive content even at high intensities.
 
 LLM integration:
-- Uses emergentintegrations.llm.chat.LlmChat with system message + session id
-- Model: configured to "openai", "gpt-5.2" in the code (adapt as needed)
-- Keep your EMERGENT_LLM_KEY secret; do not commit .env with real keys.
+- Uses OpenRouter chat completions with the system prompt + recent conversation context
+- Model: configurable via OPENROUTER_MODEL (defaults to openai/gpt-4o-mini)
+- Keep your OPENROUTER_API_KEY secret; do not commit .env with real keys.
 
 ---
 
@@ -193,7 +194,7 @@ Key scripts (frontend/package.json):
 Environment (frontend/.env.example):
 
 ```
-REACT_APP_BACKEND_URL=https://parallel-you-1.preview.emergentagent.com
+REACT_APP_BACKEND_URL=http://localhost:8000
 WDS_SOCKET_PORT=443
 ENABLE_HEALTH_CHECK=false
 ```
@@ -260,7 +261,7 @@ Code style:
 
 Backend won't start:
 - python --version → must be 3.11+
-- Check EMERGENT_LLM_KEY in backend/.env
+- Check OPENROUTER_API_KEY in backend/.env
 - lsof -i :8000 to inspect port conflicts
 - docker-compose logs backend for container issues
 
@@ -310,7 +311,7 @@ Crisis resources (if you're reading and need them):
 
 - License: MIT (see LICENSE)
 - Maintainer / contact: Cassandra Crossno — (repo owner: CassieMarie0728)
-- Emergent LLM integration & credits: emergentintegrations, Emergent team
+- OpenRouter integration for LLM responses
 
 ---
 

@@ -21,7 +21,7 @@
     "Backend /api/chat endpoint returns realistic alter ego responses",
     "Safety filtering: self-harm content triggers grounding response",
     "Different intensity levels working (Mild/Savage/Brutal)",
-    "LLM integration via emergentintegrations working correctly"
+    "LLM integration via OpenRouter working correctly"
   ],
   "test_report_links": ["/app/backend_test.py"],
   "action_item_for_main_agent": "",

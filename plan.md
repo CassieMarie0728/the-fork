@@ -6,7 +6,7 @@ A single-page experience where a user writes the “fork” decision that split 
 ## Stack
 - Frontend: React SPA (CRA) + Tailwind for styling (moody, distressed “confessional booth” look)
 - Backend: FastAPI
-- LLM: OpenAI via `emergentintegrations` using `EMERGENT_LLM_KEY`
+- LLM: OpenRouter Chat Completions using `OPENROUTER_API_KEY`
 - DB: **Not used** (as requested). Server stays stateless. Client holds conversation in memory.
 
 ## Architecture

@@ -30,7 +30,8 @@ services:
     environment:
       MONGO_URL: "mongodb://admin:password@mongo:27017"
       DB_NAME: "fork_database"
-      EMERGENT_LLM_KEY: ${EMERGENT_LLM_KEY:-sk-emergent-test}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-sk-or-test}
+      OPENROUTER_MODEL: ${OPENROUTER_MODEL:-openai/gpt-4o-mini}
       CORS_ORIGINS: "*"
       SERVER_HOST: "0.0.0.0"
       SERVER_PORT: "8000"

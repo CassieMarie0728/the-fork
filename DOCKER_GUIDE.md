@@ -44,7 +44,7 @@ docker run -d \
   -p 8000:8000 \
   -e MONGO_URL="mongodb://mongo:27017" \
   -e DB_NAME="fork_database" \
-  -e EMERGENT_LLM_KEY="your_key_here" \
+  -e OPENROUTER_API_KEY="your_key_here" \
   -e CORS_ORIGINS="*" \
   --name fork-backend \
   fork-backend:latest
@@ -115,7 +115,8 @@ Create `.env` files in backend and frontend directories:
 ```
 MONGO_URL=mongodb://admin:password@mongo:27017
 DB_NAME=fork_database
-EMERGENT_LLM_KEY=your_emergent_llm_key
+OPENROUTER_API_KEY=your_openrouter_api_key
+OPENROUTER_MODEL=openai/gpt-4o-mini
 CORS_ORIGINS=*
 SERVER_HOST=0.0.0.0
 SERVER_PORT=8000
