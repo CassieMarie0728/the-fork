@@ -1,32 +1,75 @@
 {
-  "summary": "Completed comprehensive testing of The Fork app - React SPA + FastAPI backend for chatting with alter ego. All core features working perfectly including fork setup, chat functionality, intensity levels, typing indicators, reset flow, and safety filtering.",
+  "summary": "Thorough validation run completed for backend and frontend test stacks with current repository state.",
+  "run_metadata": {
+    "timestamp_utc": "2026-03-15T11:04:13Z",
+    "git_commit": "dec183b",
+    "platform": "Linux-6.12.47-x86_64-with-glibc2.39",
+    "python": "3.10.19"
+  },
   "backend_issues": {
     "critical_bugs": [],
-    "flaky_endpoints": []
+    "flaky_endpoints": [],
+    "warnings": [
+      "FastAPI lifecycle and Pydantic deprecation warnings are present but non-blocking."
+    ]
   },
   "frontend_issues": {
     "ui_bugs": [],
-    "integration_issues": [],
+    "integration_issues": [
+      "Playwright browsers are not installed in this environment and browser download is blocked (403 Domain forbidden)."
+    ],
     "design_issues": []
   },
-  "passed_tests": [
-    "Backend API connectivity (9/9 tests passed)",
-    "Fork setup with prompt input and intensity toggle",
-    "Open the Other Door button disabled until text entered",
-    "Setup collapse into sticky fork summary bar after start",
-    "Chat send: Enter sends message, Shift+Enter creates newline",
-    "Typing indicator with intensity-specific messages (Mild/Savage/Brutal)",
-    "Message bubbles with avatars (You vs Other You)",
-    "Reset flow: modal confirmation, cancel/confirm functionality",
-    "Backend /api/chat endpoint returns realistic alter ego responses",
-    "Safety filtering: self-harm content triggers grounding response",
-    "Different intensity levels working (Mild/Savage/Brutal)",
-    "LLM integration via OpenRouter working correctly"
+  "test_runs": [
+    {
+      "command": "pytest -q tests/unit/test_server.py tests/integration/test_api.py",
+      "status": "passed",
+      "result": "30 passed, 7 warnings"
+    },
+    {
+      "command": "pytest -q backend/tests/test_server.py",
+      "status": "passed",
+      "result": "3 passed, 5 warnings"
+    },
+    {
+      "command": "cd frontend && yarn test --watchAll=false",
+      "status": "warning",
+      "result": "No frontend unit tests are defined (0 matches)."
+    },
+    {
+      "command": "cd frontend && yarn test:e2e",
+      "status": "warning",
+      "result": "33/33 failed due to missing Playwright browser executables."
+    },
+    {
+      "command": "cd frontend && yarn playwright install chromium firefox webkit",
+      "status": "warning",
+      "result": "Browser download blocked by CDN access policy (403 Domain forbidden)."
+    },
+    {
+      "command": "cd docs && npm ci",
+      "status": "warning",
+      "result": "Dependency resolution conflict: @mdx-js/react 1.x incompatible with Docusaurus 3.9.2 peer requirements."
+    }
   ],
-  "test_report_links": ["/app/backend_test.py"],
-  "action_item_for_main_agent": "",
-  "updated_files": ["/app/backend_test.py"],
-  "success_percentage": "Backend: 100% (9/9 tests passed), Frontend: 100% (all features working)",
+  "passed_tests": [
+    "Backend unit/integration API tests are now green.",
+    "Backend template tests in backend/tests are green."
+  ],
+  "test_report_links": [
+    "tests/unit/test_server.py",
+    "tests/integration/test_api.py",
+    "backend/tests/test_server.py"
+  ],
+  "action_item_for_main_agent": "Install Playwright browsers from an allowed mirror or pre-bake browsers in CI image before running e2e.",
+  "updated_files": [
+    "tests/pytest.ini",
+    "tests/conftest.py",
+    "tests/unit/test_server.py",
+    "tests/integration/test_api.py",
+    "test_reports/iteration_1.json"
+  ],
+  "success_percentage": "Backend tests: 100% pass (33/33). Frontend unit tests: N/A (no tests). Frontend e2e: blocked by environment/browser download restrictions.",
   "should_call_test_agent_after_fix": "false",
   "should_main_agent_test_itself": "true"
 }

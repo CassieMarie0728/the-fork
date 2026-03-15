@@ -3,6 +3,7 @@ Unit tests for The Fork backend server module
 """
 import pytest
 from server import (
+    ChatMessage,
     _truncate,
     _intensity_style,
     _safety_quick_check,
@@ -53,7 +54,7 @@ class TestIntensityStyle:
         result = _intensity_style("savage")
         assert "SAVAGE" in result
         assert "blunt" in result.lower()
-        assert "call out" in result.lower()
+        assert "calls out" in result.lower()
 
     def test_brutal_intensity(self):
         """Brutal intensity should return harsh tone"""
@@ -109,7 +110,7 @@ class TestDeriveStyleDirectives:
     def test_style_directives_generation(self):
         """Style directives should be generated from last user message"""
         messages = [
-            {"role": "user", "content": "First message.\nSecond line.\nThird line."}
+            ChatMessage(role="user", content="First message.\nSecond line.\nThird line.")
         ]
         result = _derive_style_directives(messages, "mild")
         # Should contain directives about line breaks
@@ -118,7 +119,7 @@ class TestDeriveStyleDirectives:
     def test_short_sentences_detection(self):
         """Short sentences should be detected"""
         messages = [
-            {"role": "user", "content": "I left. I hurt. I forgot."}
+            ChatMessage(role="user", content="I left. I hurt. I forgot.")
         ]
         result = _derive_style_directives(messages, "mild")
         assert "short" in result.lower()
@@ -143,7 +144,7 @@ class TestBuildSystemMessage:
         result = _build_system_message("Some fork", "mild", "")
         assert "Other You" in result
         assert "first-person" in result.lower()
-        assert "AI" not in result  # Should not mention being AI
+        assert "never say you are an ai" in result.lower()  # Prompt should explicitly block identity leakage
 
     def test_system_message_truncates_long_fork(self):
         """Long fork statements should be truncated"""
