@@ -154,7 +154,7 @@ class TestStatusEndpoint:
         """GET /status should return list"""
         response = client.get("/api/status")
         assert response.status_code == 200
-        assert isinstance(response.json(), list)
+        assert len(response.json()) == 1 and response.json()[0]["client_name"] == "test-client"
 
     def test_status_check_post(self, client, mock_status_db):
         """POST /status should create status check"""
