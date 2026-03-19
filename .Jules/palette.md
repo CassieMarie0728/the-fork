@@ -9,3 +9,7 @@
 ## 2024-05-15 - [Hiding Redundant Text-based Avatars]
 **Learning:** Text-based avatars (e.g., single-letter initials) that appear next to a name can be redundant and noisy for screen readers, leading to confusing announcements like "O Y Other You".
 **Action:** Apply `aria-hidden="true"` to decorative or redundant text-based icons to prevent screen reader noise when the same information is already conveyed by adjacent text.
+
+## 2026-03-19 - [Synchronizing Frontend Limits with Backend Truncation]
+**Learning:** Backend FastAPI logic (e.g., in server.py) often silently truncates long text inputs to stay within context windows or database limits. Without frontend enforcement, users may lose information they spent time drafting.
+**Action:** Always implement `maxLength` constraints on textareas that match backend limits, and provide a real-time character counter with `aria-live="polite"` to give accessible feedback on remaining space.
