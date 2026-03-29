@@ -22,6 +22,7 @@ export const MessageBubble = React.memo(({ side, label, content }) => {
         >
           {!isUser && (
             <span
+              aria-hidden="true"
               data-testid="alter-avatar"
               className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-crimson/30 bg-crimson/20 text-xs font-semibold text-zinc-100"
             >
@@ -36,6 +37,7 @@ export const MessageBubble = React.memo(({ side, label, content }) => {
           </span>
           {isUser && (
             <span
+              aria-hidden="true"
               data-testid="user-avatar"
               className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-white/5 text-xs font-semibold text-zinc-100"
             >

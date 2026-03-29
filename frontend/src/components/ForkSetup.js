@@ -88,6 +88,7 @@ export const ForkSetup = ({
                 <div>
                   <div className="mb-2 flex items-center justify-between">
                     <label
+                      id="intensity-label"
                       data-testid="intensity-label"
                       className="text-sm font-medium text-zinc-200"
                     >
@@ -104,6 +105,7 @@ export const ForkSetup = ({
                     value={intensity}
                     onChange={setIntensity}
                     disabled={false}
+                    ariaLabelledBy="intensity-label"
                   />
                 </div>
 
