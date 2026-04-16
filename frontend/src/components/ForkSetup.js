@@ -73,15 +73,27 @@ export const ForkSetup = ({
                     id="fork-statement-input"
                     value={forkStatement}
                     onChange={(e) => setForkStatement(e.target.value)}
+                    maxLength={180}
+                    aria-describedby="fork-statement-hint fork-statement-counter"
                     placeholder={`"I joined the Navy instead of staying home to start a family."\n"I chose law school instead of art."\n"I left my hometown instead of marrying my high school love."`}
                     rows={4}
                     className="mt-3 w-full resize-none rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-base text-zinc-100 placeholder:text-zinc-500 shadow-inner shadow-black/40 focus:outline-none focus:ring-2 focus:ring-crimson/60"
                   />
-                  <div
-                    data-testid="fork-statement-required"
-                    className="mt-2 text-xs text-zinc-400"
-                  >
-                    Required. Be specific. Don't hide behind vague.
+                  <div className="mt-2 flex items-center justify-between text-xs text-zinc-400">
+                    <div id="fork-statement-hint" data-testid="fork-statement-required">
+                      Required. Be specific. Don't hide behind vague.
+                    </div>
+                    <div
+                      id="fork-statement-counter"
+                      data-testid="fork-statement-counter"
+                      className={
+                        forkStatement.length >= 180
+                          ? "text-crimson font-medium"
+                          : ""
+                      }
+                    >
+                      {forkStatement.length}/180
+                    </div>
                   </div>
                 </div>
 

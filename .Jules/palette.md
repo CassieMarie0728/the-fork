@@ -9,3 +9,7 @@
 ## 2024-05-15 - [Hiding Redundant Text-based Avatars]
 **Learning:** Text-based avatars (e.g., single-letter initials) that appear next to a name can be redundant and noisy for screen readers, leading to confusing announcements like "O Y Other You".
 **Action:** Apply `aria-hidden="true"` to decorative or redundant text-based icons to prevent screen reader noise when the same information is already conveyed by adjacent text.
+
+## 2026-04-16 - [Aligning Frontend Constraints with Backend Logic]
+**Learning:** Backend logic (e.g., in `server.py`) often truncates inputs to fit model context or database limits. Without frontend enforcement, users may experience silent data loss or unexpected output. Real-time character counters provide immediate feedback and prevent frustration.
+**Action:** Always implement `maxLength` on text inputs that correspond to backend-truncated fields. Link the character counter to the input using `aria-describedby` to ensure accessibility for screen reader users.
