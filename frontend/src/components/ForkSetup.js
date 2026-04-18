@@ -75,13 +75,25 @@ export const ForkSetup = ({
                     onChange={(e) => setForkStatement(e.target.value)}
                     placeholder={`"I joined the Navy instead of staying home to start a family."\n"I chose law school instead of art."\n"I left my hometown instead of marrying my high school love."`}
                     rows={4}
+                    maxLength={180}
+                    aria-describedby="fork-statement-required fork-statement-counter"
                     className="mt-3 w-full resize-none rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-base text-zinc-100 placeholder:text-zinc-500 shadow-inner shadow-black/40 focus:outline-none focus:ring-2 focus:ring-crimson/60"
                   />
-                  <div
-                    data-testid="fork-statement-required"
-                    className="mt-2 text-xs text-zinc-400"
-                  >
-                    Required. Be specific. Don't hide behind vague.
+                  <div className="mt-2 flex items-center justify-between">
+                    <div
+                      id="fork-statement-required"
+                      data-testid="fork-statement-required"
+                      className="text-xs text-zinc-400"
+                    >
+                      Required. Be specific. Don't hide behind vague.
+                    </div>
+                    <div
+                      id="fork-statement-counter"
+                      data-testid="fork-statement-counter"
+                      className="text-xs text-zinc-400"
+                    >
+                      {forkStatement.length}/180
+                    </div>
                   </div>
                 </div>
 
@@ -114,11 +126,15 @@ export const ForkSetup = ({
                     data-testid="open-other-door-button"
                     type="button"
                     disabled={!canStart}
+                    title={!canStart ? "Tell me the decision first" : undefined}
                     onClick={onStart}
                     className="group inline-flex items-center justify-center rounded-2xl bg-crimson px-5 py-3 text-base font-semibold text-white shadow-lg shadow-crimson/20 transition-colors duration-200 hover:bg-crimson/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <span className="mr-2">Open the Other Door</span>
-                    <span className="arrow transition-colors duration-200">
+                    <span
+                      aria-hidden="true"
+                      className="arrow transition-colors duration-200"
+                    >
                       →
                     </span>
                   </button>
