@@ -38,9 +38,15 @@ export const IntensityToggle = ({
             <div className="flex items-center justify-between">
               <span className="font-medium text-zinc-100">{meta.label}</span>
               {active ? (
-                <span className="h-2 w-2 rounded-full bg-crimson" />
+                <span
+                  aria-hidden="true"
+                  className="h-2 w-2 rounded-full bg-crimson"
+                />
               ) : (
-                <span className="h-2 w-2 rounded-full bg-white/10" />
+                <span
+                  aria-hidden="true"
+                  className="h-2 w-2 rounded-full bg-white/10"
+                />
               )}
             </div>
             <div className="mt-1 text-xs text-zinc-400">{meta.hint}</div>

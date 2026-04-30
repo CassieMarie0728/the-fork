@@ -173,6 +173,7 @@ export const ChatWindow = ({ forkStatement, intensity, sessionId }) => {
         {error && (
           <div
             data-testid="chat-error"
+            role="alert"
             className="rounded-2xl border border-crimson/30 bg-crimson/10 p-4 text-sm text-zinc-100"
           >
             {error}
