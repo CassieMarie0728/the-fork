@@ -9,3 +9,7 @@
 ## 2024-05-15 - [Hiding Redundant Text-based Avatars]
 **Learning:** Text-based avatars (e.g., single-letter initials) that appear next to a name can be redundant and noisy for screen readers, leading to confusing announcements like "O Y Other You".
 **Action:** Apply `aria-hidden="true"` to decorative or redundant text-based icons to prevent screen reader noise when the same information is already conveyed by adjacent text.
+
+## 2025-05-15 - [Programmatic Association of Auxiliary Descriptions]
+**Learning:** For inputs with multiple auxiliary descriptions (e.g., character counters and hints), using `aria-describedby` with space-separated IDs ensures that screen readers can convey all relevant context to the user when the input is focused.
+**Action:** Always link real-time character counters and usage hints to their respective inputs using `aria-describedby` to provide full context to assistive technology users.
