@@ -9,3 +9,7 @@
 ## 2024-05-15 - [Hiding Redundant Text-based Avatars]
 **Learning:** Text-based avatars (e.g., single-letter initials) that appear next to a name can be redundant and noisy for screen readers, leading to confusing announcements like "O Y Other You".
 **Action:** Apply `aria-hidden="true"` to decorative or redundant text-based icons to prevent screen reader noise when the same information is already conveyed by adjacent text.
+
+## 2025-05-14 - [Focus Management for Modals]
+**Learning:** Modals that do not manage focus can leave keyboard users stranded. Focusing the safest/most likely action on open and restoring focus to the trigger element on close provides a seamless and accessible experience.
+**Action:** Implement focus management for all modals: use `useRef` to target the initial focus element, `useEffect` to trigger focus on mount, and store `document.activeElement` to restore focus on unmount.
