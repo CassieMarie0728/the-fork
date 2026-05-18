@@ -9,3 +9,7 @@
 ## 2024-05-15 - [Hiding Redundant Text-based Avatars]
 **Learning:** Text-based avatars (e.g., single-letter initials) that appear next to a name can be redundant and noisy for screen readers, leading to confusing announcements like "O Y Other You".
 **Action:** Apply `aria-hidden="true"` to decorative or redundant text-based icons to prevent screen reader noise when the same information is already conveyed by adjacent text.
+
+## 2024-05-16 - [Comprehensive Modal UX & Accessibility]
+**Learning:** Modals require a combination of focus management (capture focus, initial focus on safe action, restore on close) and intuitive dismissal (backdrop click) to feel polished and accessible. Using `focus-visible` ensures keyboard users have clarity without adding visual noise for mouse users.
+**Action:** Implement focus management and backdrop-click-to-close as a standard package for all modal components to ensure a consistent and inclusive user experience.
