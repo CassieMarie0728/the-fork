@@ -1,31 +1,56 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
 /**
  * ResetModal component - confirmation dialog for resetting the timeline
  */
 export const ResetModal = ({ open, onCancel, onConfirm }) => {
+  const cancelBtnRef = useRef(null);
+  const previousFocusRef = useRef(null);
+  const backdropRef = useRef(null);
+
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === "Escape") onCancel();
     };
+
     if (open) {
+      // Store the element that had focus before the modal opened
+      previousFocusRef.current = document.activeElement;
       window.addEventListener("keydown", handleEscape);
+
+      // Focus the "safe" button after the modal renders
+      const timer = setTimeout(() => {
+        cancelBtnRef.current?.focus();
+      }, 0);
+      return () => {
+        clearTimeout(timer);
+        window.removeEventListener("keydown", handleEscape);
+        // Restore focus when modal closes
+        previousFocusRef.current?.focus();
+      };
     }
-    return () => window.removeEventListener("keydown", handleEscape);
   }, [open, onCancel]);
+
+  const handleBackdropClick = (e) => {
+    if (e.target === backdropRef.current) {
+      onCancel();
+    }
+  };
 
   if (!open) return null;
 
   return (
     <div
       data-testid="reset-modal"
+      ref={backdropRef}
       role="dialog"
       aria-modal="true"
       aria-labelledby="reset-modal-title"
       aria-describedby="reset-modal-body"
-      className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 px-6"
+      onClick={handleBackdropClick}
+      className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 px-6 cursor-pointer"
     >
-      <div className="w-full max-w-lg rounded-3xl border border-white/10 bg-ink/90 p-6 shadow-2xl shadow-black/60">
+      <div className="w-full max-w-lg rounded-3xl border border-white/10 bg-ink/90 p-6 shadow-2xl shadow-black/60 cursor-default">
         <h2
           id="reset-modal-title"
           data-testid="reset-modal-title"
@@ -44,9 +69,10 @@ export const ResetModal = ({ open, onCancel, onConfirm }) => {
         <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
           <button
             data-testid="reset-modal-cancel"
+            ref={cancelBtnRef}
             type="button"
             onClick={onCancel}
-            className="rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-zinc-100 transition-colors duration-200 hover:bg-white/10"
+            className="rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-zinc-100 transition-colors duration-200 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-crimson/60"
           >
             Keep This Timeline
           </button>
@@ -54,7 +80,7 @@ export const ResetModal = ({ open, onCancel, onConfirm }) => {
             data-testid="reset-modal-confirm"
             type="button"
             onClick={onConfirm}
-            className="rounded-2xl bg-crimson px-4 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-crimson/90"
+            className="rounded-2xl bg-crimson px-4 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-crimson/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
           >
             Burn This Timeline
           </button>
