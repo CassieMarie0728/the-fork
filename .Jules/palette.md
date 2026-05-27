@@ -13,3 +13,7 @@
 ## 2024-05-16 - [Comprehensive Modal UX & Accessibility]
 **Learning:** Modals require a combination of focus management (capture focus, initial focus on safe action, restore on close) and intuitive dismissal (backdrop click) to feel polished and accessible. Using `focus-visible` ensures keyboard users have clarity without adding visual noise for mouse users.
 **Action:** Implement focus management and backdrop-click-to-close as a standard package for all modal components to ensure a consistent and inclusive user experience.
+
+## 2024-05-17 - [Accessible Chat Error Announcements]
+**Learning:** Error messages that appear dynamically in a chat interface (e.g., after an async send fails) are often missed by screen reader users if they aren't marked as live regions.
+**Action:** Apply `role="alert"` to error message containers in the chat interface to ensure immediate notification for screen reader users when errors occur during async operations.
