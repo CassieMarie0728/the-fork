@@ -200,9 +200,18 @@ export const ChatWindow = ({ forkStatement, intensity, sessionId }) => {
                 onChange={(e) => setDraft(e.target.value)}
                 onKeyDown={onKeyDown}
                 rows={3}
+                maxLength={500}
+                aria-describedby="composer-counter"
                 placeholder="Say the quiet part."
                 className="mt-2 w-full resize-none rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-base text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-crimson/60"
               />
+              <div
+                id="composer-counter"
+                data-testid="composer-counter"
+                className="mt-1 text-[10px] text-zinc-500 text-right"
+              >
+                {draft.length}/500
+              </div>
             </div>
 
             <button
@@ -210,9 +219,16 @@ export const ChatWindow = ({ forkStatement, intensity, sessionId }) => {
               type="button"
               onClick={send}
               disabled={loading || draft.trim().length === 0}
+              title={
+                loading
+                  ? "Wait for Other You"
+                  : draft.trim().length === 0
+                  ? "Write something first"
+                  : undefined
+              }
               className="inline-flex items-center justify-center rounded-2xl bg-zinc-100 px-5 py-3 text-sm font-semibold text-zinc-900 transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-crimson/60 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Say It
+              {loading ? "Speaking..." : "Say It"}
             </button>
           </div>
         </div>
