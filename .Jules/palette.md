@@ -17,3 +17,7 @@
 ## 2024-05-17 - [Accessible Chat Error Announcements]
 **Learning:** Error messages that appear dynamically in a chat interface (e.g., after an async send fails) are often missed by screen reader users if they aren't marked as live regions.
 **Action:** Apply `role="alert"` to error message containers in the chat interface to ensure immediate notification for screen reader users when errors occur during async operations.
+
+## 2024-05-18 - [Interaction Feedback via Dynamic Labels]
+**Learning:** For async actions like sending a message or submitting a form, updating the button label (e.g., from "Say It" to "Speaking...") provides immediate, non-disruptive feedback that the application is processing the request, reducing user uncertainty.
+**Action:** Implement dynamic labels on primary action buttons during loading states to improve perceived performance and interaction clarity.
