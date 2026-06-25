@@ -247,4 +247,39 @@ test.describe("The Fork - Full User Journey", () => {
     const footer = page.locator('[data-testid="footer"]');
     await expect(footer).toContainText("Built for the present moment");
   });
+
+  test("should show 'Speaking...' feedback while sending a message", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    // Setup conversation
+    await page
+      .locator('[data-testid="fork-statement-input"]')
+      .fill("I chose engineering instead of art.");
+    await page.locator('[data-testid="open-other-door-button"]').click();
+
+    // Mock API with delay
+    await page.route("**/api/chat", async (route) => {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ reply: "Interesting choice." }),
+      });
+    });
+
+    // Type message and click send
+    const composerInput = page.locator('[data-testid="composer-input"]');
+    await composerInput.fill("Why engineering?");
+    const sendButton = page.locator('[data-testid="composer-send-button"]');
+    await sendButton.click();
+
+    // Verify button text changes to "Speaking..." during loading
+    await expect(sendButton).toHaveText("Speaking...");
+    await expect(sendButton).toBeDisabled();
+
+    // Wait for the request to complete
+    await expect(sendButton).toHaveText("Say It");
+  });
 });
