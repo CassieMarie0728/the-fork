@@ -17,3 +17,7 @@
 ## 2024-05-17 - [Accessible Chat Error Announcements]
 **Learning:** Error messages that appear dynamically in a chat interface (e.g., after an async send fails) are often missed by screen reader users if they aren't marked as live regions.
 **Action:** Apply `role="alert"` to error message containers in the chat interface to ensure immediate notification for screen reader users when errors occur during async operations.
+
+## 2025-01-30 - [Contextual Loading Labels for Persona Consistency]
+**Learning:** In a persona-driven application like "The Fork", generic loading indicators (like "Loading...") feel out of place. Contextual labels like "Speaking..." or "Choosing words..." maintain the immersive atmosphere while providing the necessary system status feedback.
+**Action:** Replace generic loading states with persona-consistent micro-copy that reinforces the application's theme while serving the functional purpose of interaction feedback.
