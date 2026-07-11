@@ -230,7 +230,7 @@ export const ChatWindow = ({ forkStatement, intensity, sessionId }) => {
               }
               className="inline-flex items-center justify-center rounded-2xl bg-zinc-100 px-5 py-3 text-sm font-semibold text-zinc-900 transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-crimson/60 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Say It
+              {loading ? "Speaking..." : "Say It"}
             </button>
           </div>
         </div>
