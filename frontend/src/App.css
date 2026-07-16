@@ -32,6 +32,7 @@
 
 /* Utility tokens for Tailwind-like names used in JSX */
 .bg-crimson { background-color: var(--crimson); }
+.text-crimson { color: var(--crimson); }
 .bg-ink { background-color: var(--ink); }
 .border-crimson\/30 { border-color: rgba(214, 43, 63, 0.30); }
 .bg-crimson\/10 { background-color: rgba(214, 43, 63, 0.10); }
