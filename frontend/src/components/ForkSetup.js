@@ -87,10 +87,15 @@ export const ForkSetup = ({
                     >
                       Required. Be specific. Don't hide behind vague.
                     </div>
+                    {/* Visual urgency: transition to crimson and bold font at >= 85% of maxLength to prevent unexpected truncation */}
                     <div
                       id="fork-statement-counter"
                       data-testid="fork-statement-counter"
-                      className="text-xs text-zinc-400"
+                      className={`text-xs transition-colors duration-200 ${
+                        forkStatement.length >= 153
+                          ? "text-crimson font-bold"
+                          : "text-zinc-400"
+                      }`}
                     >
                       {forkStatement.length}/180
                     </div>
