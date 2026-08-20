@@ -282,4 +282,23 @@ test.describe("The Fork - Full User Journey", () => {
     // Wait for the request to complete
     await expect(sendButton).toHaveText("Say It");
   });
+
+  test("should show character counter urgency styling when input reaches threshold", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const forkInput = page.locator('[data-testid="fork-statement-input"]');
+    const counter = page.locator('[data-testid="fork-statement-counter"]');
+
+    // Initially standard text color
+    await expect(counter).toHaveClass(/text-zinc-400/);
+
+    // Type 160 characters (threshold for 180 max)
+    await forkInput.fill("a".repeat(160));
+
+    // Verify visual urgency styling
+    await expect(counter).toHaveClass(/text-red-400/);
+    await expect(counter).toHaveClass(/font-medium/);
+  });
 });
