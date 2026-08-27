@@ -248,6 +248,23 @@ test.describe("The Fork - Full User Journey", () => {
     await expect(footer).toContainText("Built for the present moment");
   });
 
+  test("should highlight character counter near max limit", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const forkInput = page.locator('[data-testid="fork-statement-input"]');
+    const forkCounter = page.locator('[data-testid="fork-statement-counter"]');
+
+    // Less than threshold (153 chars)
+    await forkInput.fill("A".repeat(150));
+    await expect(forkCounter).not.toHaveClass(/text-crimson/);
+
+    // At/above threshold (153 chars)
+    await forkInput.fill("A".repeat(155));
+    await expect(forkCounter).toHaveClass(/text-crimson/);
+  });
+
   test("should show 'Speaking...' feedback while sending a message", async ({
     page,
   }) => {
