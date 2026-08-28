@@ -206,10 +206,15 @@ export const ChatWindow = ({ forkStatement, intensity, sessionId }) => {
                 className="mt-2 w-full resize-none rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-base text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-crimson/60"
               />
               <div className="mt-1.5 flex justify-end">
+                {/* Visual urgency: transition to crimson and bold font at >= 85% of maxLength to prevent unexpected truncation */}
                 <div
                   id="composer-counter"
                   data-testid="composer-counter"
-                  className="text-xs text-zinc-400"
+                  className={`text-xs transition-colors duration-200 ${
+                    draft.length >= 425
+                      ? "text-crimson font-bold"
+                      : "text-zinc-400"
+                  }`}
                 >
                   {draft.length}/500
                 </div>

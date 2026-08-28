@@ -31,6 +31,8 @@
 }
 
 /* Utility tokens for Tailwind-like names used in JSX */
+/* .text-crimson utility class provides high-urgency visual cues (e.g., character counter warnings) compliant with the application's design system */
+.text-crimson { color: var(--crimson); }
 .bg-crimson { background-color: var(--crimson); }
 .bg-ink { background-color: var(--ink); }
 .border-crimson\/30 { border-color: rgba(214, 43, 63, 0.30); }
