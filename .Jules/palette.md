@@ -21,3 +21,7 @@
 ## 2025-01-30 - [Contextual Loading Labels for Persona Consistency]
 **Learning:** In a persona-driven application like "The Fork", generic loading indicators (like "Loading...") feel out of place. Contextual labels like "Speaking..." or "Choosing words..." maintain the immersive atmosphere while providing the necessary system status feedback.
 **Action:** Replace generic loading states with persona-consistent micro-copy that reinforces the application's theme while serving the functional purpose of interaction feedback.
+
+## 2025-05-22 - [Proactive Input Constraints]
+**Learning:** Users can feel frustrated when they hit a character limit abruptly without visual warning. Providing a transition in color and font weight as the limit approaches acts as a "soft warning" that improves the typing rhythm and prevents data loss.
+**Action:** Implement visual urgency triggers (e.g., color transitions) for character counters when input reaches ~85-90% of the maximum length to provide a smoother interaction flow.

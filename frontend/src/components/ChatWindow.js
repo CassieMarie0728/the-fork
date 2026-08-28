@@ -209,7 +209,11 @@ export const ChatWindow = ({ forkStatement, intensity, sessionId }) => {
                 <div
                   id="composer-counter"
                   data-testid="composer-counter"
-                  className="text-xs text-zinc-400"
+                  className={`text-xs transition-colors duration-200 ${
+                    draft.length > 450
+                      ? "font-medium text-crimson"
+                      : "text-zinc-400"
+                  }`}
                 >
                   {draft.length}/500
                 </div>
