@@ -282,4 +282,23 @@ test.describe("The Fork - Full User Journey", () => {
     // Wait for the request to complete
     await expect(sendButton).toHaveText("Say It");
   });
+
+  test("should show visual character counter threshold warning when limit is approached", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const forkInput = page.locator('[data-testid="fork-statement-input"]');
+    const forkCounter = page.locator('[data-testid="fork-statement-counter"]');
+
+    // Initially standard style
+    await expect(forkCounter).not.toHaveClass(/text-crimson/);
+
+    // Type text long enough to cross threshold (>= 155 chars)
+    const longText = "A".repeat(160);
+    await forkInput.fill(longText);
+
+    // Counter should now have crimson warning style
+    await expect(forkCounter).toHaveClass(/text-crimson/);
+  });
 });
