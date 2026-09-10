@@ -282,4 +282,54 @@ test.describe("The Fork - Full User Journey", () => {
     // Wait for the request to complete
     await expect(sendButton).toHaveText("Say It");
   });
+
+  test("should highlight fork statement counter when reaching near maximum limit", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const forkInput = page.locator('[data-testid="fork-statement-input"]');
+    const counter = page.locator('[data-testid="fork-statement-counter"]');
+
+    // Initially standard text color
+    await expect(counter).not.toHaveClass(/text-crimson/);
+
+    // Fill with text below threshold (140 chars)
+    await forkInput.fill("a".repeat(140));
+    await expect(counter).not.toHaveClass(/text-crimson/);
+
+    // Fill with text at threshold (150 chars)
+    await forkInput.fill("a".repeat(150));
+    await expect(counter).toHaveClass(/text-crimson/);
+    await expect(counter).toHaveClass(/font-semibold/);
+  });
+
+  test("should highlight composer counter when reaching near maximum limit", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    // Setup conversation
+    await page
+      .locator('[data-testid="fork-statement-input"]')
+      .fill("I chose engineering instead of art.");
+    await page.locator('[data-testid="open-other-door-button"]').click();
+
+    await page.locator('[data-testid="message-list-container"]').waitFor();
+
+    const composerInput = page.locator('[data-testid="composer-input"]');
+    const counter = page.locator('[data-testid="composer-counter"]');
+
+    // Initially standard text color
+    await expect(counter).not.toHaveClass(/text-crimson/);
+
+    // Fill with text below threshold (400 chars)
+    await composerInput.fill("a".repeat(400));
+    await expect(counter).not.toHaveClass(/text-crimson/);
+
+    // Fill with text at threshold (425 chars)
+    await composerInput.fill("a".repeat(425));
+    await expect(counter).toHaveClass(/text-crimson/);
+    await expect(counter).toHaveClass(/font-semibold/);
+  });
 });
