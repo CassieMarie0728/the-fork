@@ -40,6 +40,26 @@ test.describe("The Fork - Full User Journey", () => {
     await expect(startButton).toBeEnabled();
   });
 
+  test("should highlight character counter in crimson when near character limit", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const forkInput = page.locator('[data-testid="fork-statement-input"]');
+    const counter = page.locator('[data-testid="fork-statement-counter"]');
+
+    // Initially counter should not have crimson styling
+    await expect(counter).not.toHaveClass(/text-crimson/);
+
+    // Type 153 characters (85% of 180 capacity)
+    const longStatement = "a".repeat(153);
+    await forkInput.fill(longStatement);
+
+    // Counter should now have text-crimson styling
+    await expect(counter).toHaveClass(/text-crimson/);
+    await expect(counter).toHaveText("153/180");
+  });
+
   test("should allow intensity selection", async ({ page }) => {
     await page.goto("/");
 
