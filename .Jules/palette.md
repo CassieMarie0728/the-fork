@@ -21,3 +21,7 @@
 ## 2025-01-30 - [Contextual Loading Labels for Persona Consistency]
 **Learning:** In a persona-driven application like "The Fork", generic loading indicators (like "Loading...") feel out of place. Contextual labels like "Speaking..." or "Choosing words..." maintain the immersive atmosphere while providing the necessary system status feedback.
 **Action:** Replace generic loading states with persona-consistent micro-copy that reinforces the application's theme while serving the functional purpose of interaction feedback.
+
+## 2025-05-18 - [Visual Urgency & Persistent Live Regions for Input Counters]
+**Learning:** Dynamically toggling `aria-live` only when maximum input length is reached can cause screen readers to miss live updates because the live region wasn't established prior to the DOM change. Combining persistent `aria-live="polite"` with visual urgency triggers (`text-red-400 font-medium` at ~85-90% capacity) provides immediate, clear feedback to both sighted and screen reader users without abrupt truncation surprises.
+**Action:** Keep `aria-live="polite"` statically assigned on character counter elements while applying dynamic visual styling at near-limit thresholds.

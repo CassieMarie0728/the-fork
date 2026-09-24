@@ -282,4 +282,61 @@ test.describe("The Fork - Full User Journey", () => {
     // Wait for the request to complete
     await expect(sendButton).toHaveText("Say It");
   });
+
+  test("should update character counter styling and retain aria-live attribute when nearing limit", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const forkInput = page.locator('[data-testid="fork-statement-input"]');
+    const counter = page.locator('[data-testid="fork-statement-counter"]');
+
+    // Initially standard styling & aria-live='polite'
+    await expect(counter).toHaveClass(/text-zinc-400/);
+    await expect(counter).toHaveAttribute("aria-live", "polite");
+
+    // Type text > 160 chars
+    const text165 = "a".repeat(165);
+    await forkInput.fill(text165);
+    await expect(counter).toHaveClass(/text-red-400/);
+    await expect(counter).toHaveAttribute("aria-live", "polite");
+
+    // Type text = 180 chars (max length)
+    const text180 = "a".repeat(180);
+    await forkInput.fill(text180);
+    await expect(counter).toHaveClass(/text-red-400/);
+    await expect(counter).toHaveAttribute("aria-live", "polite");
+  });
+
+  test("should update composer character counter styling and retain aria-live attribute when nearing limit", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    // Setup conversation
+    await page
+      .locator('[data-testid="fork-statement-input"]')
+      .fill("I chose engineering instead of art.");
+    await page.locator('[data-testid="open-other-door-button"]').click();
+
+    // Wait for chat window
+    await page.locator('[data-testid="message-list-container"]').waitFor();
+
+    const composerInput = page.locator('[data-testid="composer-input"]');
+    const composerCounter = page.locator('[data-testid="composer-counter"]');
+
+    // Initially standard styling & aria-live='polite'
+    await expect(composerCounter).toHaveClass(/text-zinc-400/);
+    await expect(composerCounter).toHaveAttribute("aria-live", "polite");
+
+    // Fill 455 chars (> 450)
+    await composerInput.fill("a".repeat(455));
+    await expect(composerCounter).toHaveClass(/text-red-400/);
+    await expect(composerCounter).toHaveAttribute("aria-live", "polite");
+
+    // Fill 500 chars (max)
+    await composerInput.fill("a".repeat(500));
+    await expect(composerCounter).toHaveClass(/text-red-400/);
+    await expect(composerCounter).toHaveAttribute("aria-live", "polite");
+  });
 });
