@@ -90,7 +90,12 @@ export const ForkSetup = ({
                     <div
                       id="fork-statement-counter"
                       data-testid="fork-statement-counter"
-                      className="text-xs text-zinc-400"
+                      aria-live="polite"
+                      className={`text-xs ${
+                        forkStatement.length >= 160
+                          ? "text-red-400 font-medium"
+                          : "text-zinc-400"
+                      }`}
                     >
                       {forkStatement.length}/180
                     </div>

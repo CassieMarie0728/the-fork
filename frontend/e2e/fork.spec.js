@@ -282,4 +282,27 @@ test.describe("The Fork - Full User Journey", () => {
     // Wait for the request to complete
     await expect(sendButton).toHaveText("Say It");
   });
+
+  test("should update character counter with aria-live and display urgency color when near threshold", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const forkInput = page.locator('[data-testid="fork-statement-input"]');
+    const counter = page.locator('[data-testid="fork-statement-counter"]');
+
+    // Verify aria-live attribute
+    await expect(counter).toHaveAttribute("aria-live", "polite");
+
+    // Enter short text (< 160 chars)
+    await forkInput.fill("Short statement.");
+    await expect(counter).toHaveText("16/180");
+    await expect(counter).not.toHaveClass(/text-red-400/);
+
+    // Enter text >= 160 chars
+    const longText = "A".repeat(165);
+    await forkInput.fill(longText);
+    await expect(counter).toHaveText("165/180");
+    await expect(counter).toHaveClass(/text-red-400/);
+  });
 });
