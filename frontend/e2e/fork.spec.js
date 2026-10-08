@@ -282,4 +282,48 @@ test.describe("The Fork - Full User Journey", () => {
     // Wait for the request to complete
     await expect(sendButton).toHaveText("Say It");
   });
+
+  test("should update character counter styles when approaching and reaching character capacity", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const forkInput = page.locator('[data-testid="fork-statement-input"]');
+    const forkCounter = page.locator('[data-testid="fork-statement-counter"]');
+
+    // Normal state (< 85%)
+    await forkInput.fill("Short statement");
+    await expect(forkCounter).toHaveClass(/text-zinc-400/);
+
+    // Warning state (>= 85% of 180 = 153 chars)
+    const text153 = "a".repeat(153);
+    await forkInput.fill(text153);
+    await expect(forkCounter).toHaveClass(/text-amber-400/);
+
+    // Limit state (180 chars)
+    const text180 = "a".repeat(180);
+    await forkInput.fill(text180);
+    await expect(forkCounter).toHaveClass(/text-red-400/);
+
+    // Start conversation to test chat composer counter
+    await page.locator('[data-testid="open-other-door-button"]').click();
+    await page.locator('[data-testid="message-list-container"]').waitFor();
+
+    const composerInput = page.locator('[data-testid="composer-input"]');
+    const composerCounter = page.locator('[data-testid="composer-counter"]');
+
+    // Normal state (< 85%)
+    await composerInput.fill("Hello");
+    await expect(composerCounter).toHaveClass(/text-zinc-400/);
+
+    // Warning state (>= 85% of 500 = 425 chars)
+    const text425 = "b".repeat(425);
+    await composerInput.fill(text425);
+    await expect(composerCounter).toHaveClass(/text-amber-400/);
+
+    // Limit state (500 chars)
+    const text500 = "b".repeat(500);
+    await composerInput.fill(text500);
+    await expect(composerCounter).toHaveClass(/text-red-400/);
+  });
 });
