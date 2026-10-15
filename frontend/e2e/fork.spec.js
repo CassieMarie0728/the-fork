@@ -248,6 +248,35 @@ test.describe("The Fork - Full User Journey", () => {
     await expect(footer).toContainText("Built for the present moment");
   });
 
+  test("should apply visual urgency styling to character counters near maximum capacity", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const forkInput = page.locator('[data-testid="fork-statement-input"]');
+    const forkCounter = page.locator('[data-testid="fork-statement-counter"]');
+
+    // Initially standard color
+    await expect(forkCounter).toHaveClass(/text-zinc-400/);
+
+    // Fill with 153+ characters (85% of 180)
+    await forkInput.fill("a".repeat(153));
+    await expect(forkCounter).toHaveClass(/text-red-400/);
+
+    // Start conversation to test composer counter
+    await page.locator('[data-testid="open-other-door-button"]').click();
+    await page.locator('[data-testid="message-list-container"]').waitFor();
+
+    const composerInput = page.locator('[data-testid="composer-input"]');
+    const composerCounter = page.locator('[data-testid="composer-counter"]');
+
+    await expect(composerCounter).toHaveClass(/text-zinc-400/);
+
+    // Fill with 425+ characters (85% of 500)
+    await composerInput.fill("b".repeat(425));
+    await expect(composerCounter).toHaveClass(/text-red-400/);
+  });
+
   test("should show 'Speaking...' feedback while sending a message", async ({
     page,
   }) => {
