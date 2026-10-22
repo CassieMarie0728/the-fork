@@ -248,6 +248,24 @@ test.describe("The Fork - Full User Journey", () => {
     await expect(footer).toContainText("Built for the present moment");
   });
 
+  test("should display visual urgency styling on character counters near limit", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const forkInput = page.locator('[data-testid="fork-statement-input"]');
+    const forkCounter = page.locator('[data-testid="fork-statement-counter"]');
+
+    // Initially standard styling
+    await expect(forkCounter).toHaveClass(/text-zinc-400/);
+
+    // Type 150 characters to reach threshold
+    await forkInput.fill("a".repeat(150));
+
+    // Should now show urgency styling
+    await expect(forkCounter).toHaveClass(/text-red-400/);
+  });
+
   test("should show 'Speaking...' feedback while sending a message", async ({
     page,
   }) => {
