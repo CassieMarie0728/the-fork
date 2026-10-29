@@ -282,4 +282,37 @@ test.describe("The Fork - Full User Journey", () => {
     // Wait for the request to complete
     await expect(sendButton).toHaveText("Say It");
   });
+
+  test("should apply visual urgency styling to character counters when approaching limit", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const forkInput = page.locator('[data-testid="fork-statement-input"]');
+    const forkCounter = page.locator('[data-testid="fork-statement-counter"]');
+
+    // Initially normal color
+    await expect(forkCounter).toHaveClass(/text-zinc-400/);
+    await expect(forkCounter).not.toHaveClass(/text-red-400/);
+
+    // Type 160 characters (threshold)
+    await forkInput.fill("a".repeat(160));
+    await expect(forkCounter).toHaveClass(/text-red-400/);
+    await expect(forkCounter).toHaveClass(/font-medium/);
+
+    // Start conversation to test composer counter
+    await page.locator('[data-testid="open-other-door-button"]').click();
+
+    const composerInput = page.locator('[data-testid="composer-input"]');
+    const composerCounter = page.locator('[data-testid="composer-counter"]');
+
+    // Initially normal color
+    await expect(composerCounter).toHaveClass(/text-zinc-400/);
+    await expect(composerCounter).not.toHaveClass(/text-red-400/);
+
+    // Type 450 characters (threshold)
+    await composerInput.fill("b".repeat(450));
+    await expect(composerCounter).toHaveClass(/text-red-400/);
+    await expect(composerCounter).toHaveClass(/font-medium/);
+  });
 });
