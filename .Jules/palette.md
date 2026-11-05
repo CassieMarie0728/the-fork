@@ -21,3 +21,7 @@
 ## 2025-01-30 - [Contextual Loading Labels for Persona Consistency]
 **Learning:** In a persona-driven application like "The Fork", generic loading indicators (like "Loading...") feel out of place. Contextual labels like "Speaking..." or "Choosing words..." maintain the immersive atmosphere while providing the necessary system status feedback.
 **Action:** Replace generic loading states with persona-consistent micro-copy that reinforces the application's theme while serving the functional purpose of interaction feedback.
+
+## 2025-02-01 - [Visual Warning Urgency for Hard Character Ceilings]
+**Learning:** Strict character limits (like the 180-character fork statement) cause abrupt input blockage when typed without visual or assistive cues. Adding an `aria-live="polite"` region and switching the counter to a warning tone (`text-red-400 font-medium`) near capacity (e.g. >= 160 characters) prepares the user before hitting the ceiling.
+**Action:** Always complement hard input limits with dynamic visual urgency styling and `aria-live="polite"` on character counter elements to provide timely feedback to both sighted and screen-reader users.
