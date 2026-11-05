@@ -40,6 +40,32 @@ test.describe("The Fork - Full User Journey", () => {
     await expect(startButton).toBeEnabled();
   });
 
+  test("should show visual urgency styling and aria-live on character counter near limit", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const forkInput = page.locator('[data-testid="fork-statement-input"]');
+    const counter = page.locator('[data-testid="fork-statement-counter"]');
+
+    // Initially 0/180, polite live region, muted styling
+    await expect(counter).toHaveAttribute("aria-live", "polite");
+    await expect(counter).toHaveText("0/180");
+    await expect(counter).toHaveClass(/text-zinc-400/);
+    await expect(counter).not.toHaveClass(/text-red-400/);
+
+    // Enter 159 characters (below threshold)
+    await forkInput.fill("a".repeat(159));
+    await expect(counter).toHaveText("159/180");
+    await expect(counter).not.toHaveClass(/text-red-400/);
+
+    // Enter 160 characters (reaches threshold >= 160)
+    await forkInput.fill("a".repeat(160));
+    await expect(counter).toHaveText("160/180");
+    await expect(counter).toHaveClass(/text-red-400/);
+    await expect(counter).toHaveClass(/font-medium/);
+  });
+
   test("should allow intensity selection", async ({ page }) => {
     await page.goto("/");
 

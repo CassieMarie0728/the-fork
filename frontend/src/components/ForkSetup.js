@@ -15,6 +15,7 @@ export const ForkSetup = ({
   started,
 }) => {
   const canStart = forkStatement.trim().length > 0;
+  const isNearLimit = forkStatement.length >= 160;
 
   return (
     <section
@@ -90,7 +91,10 @@ export const ForkSetup = ({
                     <div
                       id="fork-statement-counter"
                       data-testid="fork-statement-counter"
-                      className="text-xs text-zinc-400"
+                      aria-live="polite"
+                      className={`text-xs transition-colors duration-200 ${
+                        isNearLimit ? "text-red-400 font-medium" : "text-zinc-400"
+                      }`}
                     >
                       {forkStatement.length}/180
                     </div>
